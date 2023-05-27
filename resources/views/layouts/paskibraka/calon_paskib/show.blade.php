@@ -1,0 +1,108 @@
+@extends('master')
+
+@section('title', 'Calon Paskibra')
+
+@section('content')
+
+    <a href="#" data-toggle="modal" data-target="#modalAjax" class="btn btn-primary btn-action mb-3" style="width: 10%" data-toggle="tooltip" title="" data-original-title="Tambah"><i class="fas fa-plus pt-1"></i></a>
+    <div class="card">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+            <table class="table table-striped mb-0">
+                <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Nama Lengkap</th>
+                    <th>Alamat</th>
+                    <th>Asal Sekolah</th>
+                    <th>Jenis Kelamin</th>
+                    <th>Tanggal Lahir</th>
+                    <th>No Telp</th>
+                    <th style="width: 15%">Action</th>
+                </tr>
+                </thead>
+                <tbody>                
+                    @php
+                        $no = 1;
+                    @endphp     
+                    
+                    @foreach ($data_paskib as $data)
+                    <tr>
+                        <td>{{ $no++ }}</td>
+                        <td>{{ $data->name }}</td>
+                        <td>{{ $data->alamat }}</td>
+                        <td>{{ $data->asal_sekolah }}</td>
+                        <td>{{ $data->jenis_kelamin }}</td>
+                        <td>{{\Carbon\Carbon::parse($data->tgl_lahir)->isoFormat('D MMMM Y')}}</td>
+                        <td>{{ $data->no_telp }}</td>
+                        <td>
+                            <form action="{{ route('delete-calon-paskib', $data->id) }}" method="post" id="formDelete-{{ $data->id }}">
+                                @csrf
+                                @method('delete')
+                                <a href="javascript:void(0)" id="edit-calon-paskib" data-toggle="modal" data-target="#modalAjax" data-id="{{ $data->id }}" class="btn btn-secondary btn-action mr-1" data-toggle="tooltip" title="" data-original-title="{{ $data->id }}"><i class="fas fa-pencil-alt pt-1"></i></a>
+                                <a class="btn btn-danger btn-action" data-toggle="tooltip" title="" data-confirm="Anda Yakin Ingin Menghapus Data?" data-confirm-yes="submitDelete({{ $data->id }})" data-original-title="Delete"><i class="fas fa-trash pt-1"></i>
+                                </a>
+                            </form>
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+            </div>
+        </div>
+    </div>
+@endsection
+
+{{-- modal edit --}}
+    <form id="calon-paskib-form" enctype="multipart/form-data">
+        @csrf
+        {{-- @method('put') --}}
+        {{-- id kriteria --}}
+        <input type="hidden" id="calon-paskib-id">
+        <div class="modal fade" id="modalAjax" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modal-title">Tambah Calon Paskibra</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label style="font-size:15px" for="name">Nama Lengkap</label>
+                            <input type="text" class="form-control" value="" id="name">
+                        </div>
+                        <div class="form-group">
+                            <label style="font-size:15px" for="alamat">Alamat</label>
+                            <input type="text" class="form-control" value="" id="alamat">
+                        </div>
+                        <div class="form-group">
+                            <label style="font-size:15px" for="asal_sekolah">Asal Sekolah</label>
+                            <input type="text" class="form-control" value="" id="asal_sekolah">
+                        </div>
+                        <div class="form-group">
+                            <label style="font-size:15px" for="jenis_kelamin">Jenis Kelamin</label>
+                            <select class="form-control" id="jenis_kelamin">
+                                <option value="">-- Pilih Kelas --</option>
+                                <option value="Laki-laki">Laki-laki</option>
+                                <option value="Perempuan">Perempuan</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label style="font-size:15px" for="tgl_lahir">Tanggal Lahir</label>
+                            <input type="date" class="form-control" value="" id="tgl_lahir">
+                        </div>
+                        <div class="form-group">
+                            <label style="font-size:15px" for="no_telp">No Telp</label>
+                            <input type="text" class="form-control" value="" id="no_telp">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" id="save-calon-paskib" value="create" class="btn btn-primary">Save</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>

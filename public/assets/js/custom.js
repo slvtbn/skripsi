@@ -1,0 +1,428 @@
+/**
+ *
+ * You can write your JS code here, DO NOT touch the default style file
+ * because it will make it harder for you to update.
+ * 
+ */
+
+"use strict";
+
+// const {
+//     pullAt
+// } = require("lodash");
+
+// modal confirmation
+function submitDelete(id) {
+    console.log(document.getElementById('formDelete-' + id).submit());
+}
+
+// mereset modal
+$('#modalAjax').on('hidden.bs.modal', function () {
+    $('input').val('');
+    $('.error').html('');
+    $('select').val('');
+})
+
+// edit aspek
+$(document).on('click', '#edit-aspek', function (e) {
+    e.preventDefault();
+
+    var aspek_id = $(this).data('id');
+    var url = '/aspek/edit/';
+    $.get(url + aspek_id, function (data) {
+        $('#aspek').val(data.aspek);
+        $('#aspek-id').val(data.id);
+        $('#save-aspek').val('edit-aspek');
+        $('#modal-title').html('Edit Aspek Penilaian')
+    })
+})
+
+// Input dan update aspek
+$('#save-aspek').on('click', function (e) {
+    e.preventDefault();
+
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    var aspek = $('#aspek').val();
+    var aspek_id = $('#aspek-id').val();
+    var button = $('#save-aspek').val();
+    console.log(button)
+
+    if (button == 'create') {
+
+        $.ajax({
+            type: 'POST',
+            url: '/aspek/add',
+            data: {
+                'aspek': aspek
+            },
+            success: function (response) {
+                console.log(response);
+                Swal.fire(
+                    'Success',
+                    'Data Berhasil Ditambahkan',
+                    'success'
+                ).then(() => {
+                    location.reload();
+                })
+            },
+            error: function (data) {
+                var errors = $.parseJSON(data.responseText);
+                console.log(errors['errors']['aspek'][0]);
+                $('#aspek-error').html(errors['errors']['aspek'][0]);
+            }
+        })
+    } else {
+        $.ajax({
+            type: 'PUT',
+            url: '/aspek/update/' + aspek_id,
+            data: {
+                'aspek': aspek
+            },
+            success: function (response) {
+                console.log(response);
+                Swal.fire(
+                    'Success',
+                    'Data Berhasil Diubah',
+                    'success'
+                ).then(() => {
+                    location.reload()
+                })
+            },
+            error: function (data) {
+                var errors = $.parseJSON(data.responseText);
+                console.log(errors['errors']['aspek'][0]);
+                $('#aspek-error').html(errors['errors']['aspek'][0]);
+            }
+
+        })
+    }
+})
+
+// Edit Krtieria 
+$(document).on('click', '#edit-kriteria', function (e) {
+    e.preventDefault();
+
+    var kriteria_id = $(this).data('id');
+    var url = '/kriteria/edit/';
+    $.get(url + kriteria_id, function (data) {
+        var aspek_id = data.aspek_id;
+        var nama_kelas = data.kelas;
+        $('#modalEdit').modal('show');
+        $('#kriteria-id').val(data.id);
+        $('#aspek_id option[value=' + aspek_id + ']').attr('selected', true);
+        $('#simbol').val(data.simbol);
+        $('#kriteria').val(data.kriteria);
+        $('#nilai_target').val(data.nilai_target);
+        $('#kelas').val(data.kelas);
+        $('#save-kriteria').val('edit-user');
+        $('#modal-title').html('Edit Kriteria Penilaian')
+    })
+})
+
+// input dan update kriteria
+$('#save-kriteria').on('click', function (e) {
+    e.preventDefault();
+
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    var kriteria_id = $('#kriteria-id').val();
+    var aspek_id = $('#aspek_id').val();
+    var simbol = $('#simbol').val();
+    var kriteria = $('#kriteria').val();
+    var nilai_target = $('#nilai_target').val();
+    var kelas = $('#kelas').val();
+    var button = $('#save-kriteria').val();
+
+
+    console.log(button);
+
+    if (button == 'create') {
+        $.ajax({
+            type: 'POST',
+            url: '/kriteria/add',
+            data: {
+                'aspek_id': aspek_id,
+                'simbol': simbol,
+                'kriteria': kriteria,
+                'nilai_target': nilai_target,
+                'kelas': kelas
+            },
+            success: function (response) {
+                console.log(response);
+                Swal.fire(
+                    'Success',
+                    'Data Berhasil Ditambahkan',
+                    'success'
+                ).then(() => {
+                    location.reload();
+                })
+            },
+            error: function (data) {
+                var errors = $.parseJSON(data.responseText);
+                console.log(errors['errors']);
+                $.each(errors.errors, function (key, val) {
+                    $('#' + key + "-error").html(val[0]);
+                })
+            }
+        })
+    } else {
+        $.ajax({
+            type: 'PUT',
+            url: '/kriteria/update/' + kriteria_id,
+            data: {
+                'aspek_id': aspek_id,
+                'simbol': simbol,
+                'kriteria': kriteria,
+                'nilai_target': nilai_target,
+                'kelas': kelas
+            },
+            success: function (response) {
+                console.log(response);
+                Swal.fire(
+                    'Success',
+                    'Data Berhasil Diubah',
+                    'success').then(() => {
+                    location.reload();
+                });
+            },
+            error: function (data) {
+                var errors = $.parseJSON(data.responseText);
+                console.log(errors['errors']);
+                $.each(errors.errors, function (key, val) {
+                    $('#' + key + "-error").html(val[0]);
+                })
+            }
+        })
+    }
+})
+
+// Edit calon paskibraka
+$(document).on('click', '#edit-calon-paskib', function (e) {
+    e.preventDefault();
+
+    var calon_paskib_id = $(this).data('id');
+    var url = '/calon-paskib/edit/';
+    $.get(url + calon_paskib_id, function (data) {
+        // var aspek_id = data.aspek_id;
+        // var nama_kelas = data.kelas;
+        $('#modalEdit').modal('show');
+        $('#calon-paskib-id').val(data.id);
+        $('#name').val(data.name);
+        $('#alamat').val(data.alamat);
+        $('#asal_sekolah').val(data.asal_sekolah);
+        $('#jenis_kelamin').val(data.jenis_kelamin);
+        $('#tgl_lahir').val(data.tgl_lahir);
+        $('#no_telp').val(data.no_telp);
+        $('#save-calon-paskib').val('edit-user');
+        $('#modal-title').html('Edit Calon Paskibra');
+    })
+})
+
+// input dan update calon paskibraka
+$('#save-calon-paskib').on('click', function (e) {
+    e.preventDefault();
+
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    var calon_paskib_id = $('#calon-paskib-id').val();
+    var name = $('#name').val();
+    var alamat = $('#alamat').val();
+    var asal_sekolah = $('#asal_sekolah').val();
+    var jenis_kelamin = $('#jenis_kelamin').val();
+    var tgl_lahir = $('#tgl_lahir').val();
+    var no_telp = $('#no_telp').val();
+    var button = $('#save-calon-paskib').val();
+    console.log(button);
+
+    if (button == 'create') {
+        $.ajax({
+            type: 'POST',
+            url: '/calon-paskib/add',
+            data: {
+                'name': name,
+                'alamat': alamat,
+                'asal_sekolah': asal_sekolah,
+                'jenis_kelamin': jenis_kelamin,
+                'tgl_lahir': tgl_lahir,
+                'no_telp': no_telp,
+            },
+            success: function (response) {
+                console.log(response);
+                Swal.fire(
+                    'Success',
+                    'Data Berhasil Ditambahkan',
+                    'success'
+                ).then(() => {
+                    location.reload();
+                })
+            },
+            error: function (data) {
+                var errors = $.parseJSON(data.responseText);
+                console.log(errors);
+            }
+        })
+    } else {
+        $.ajax({
+            type: 'PUT',
+            url: '/calon-paskib/update/' + calon_paskib_id,
+            data: {
+                'name': name,
+                'alamat': alamat,
+                'asal_sekolah': asal_sekolah,
+                'jenis_kelamin': jenis_kelamin,
+                'tgl_lahir': tgl_lahir,
+                'no_telp': no_telp,
+            },
+            success: function (response) {
+                console.log(response);
+                //show success message
+                Swal.fire(
+                    'Success',
+                    'Data Berhasil Diubah',
+                    'success').then(() => {
+                    location.reload();
+                });
+            },
+            error: function (data) {
+                var errors = $.parseJSON(data.responseText);
+                console.log(errors);
+            }
+        })
+    }
+})
+
+// Edit nilai
+$(document).on('click', '#edit-nilai', function (e) {
+    e.preventDefault();
+
+    var nilai_id = $(this).data('id');
+    var url = '/nilai/edit/';
+    $.get(url + nilai_id, function (data) {
+        $('#modalEdit').modal('show');
+        $('#nilai-id').val(data.id);
+        $('#search_name').val(data.nama_lengkap);
+        $('#asal_sekolah').val(data.asal_sekolah);
+        $('#jenis_kelamin').val(data.jenis_kelamin);
+        $('#akademik').val(data.akademik);
+        $('#jalan_ditempat').val(data.jalan_ditempat);
+        $('#langkah_tegap').val(data.langkah_tegap);
+        $('#penghormatan').val(data.penghormatan);
+        $('#belok').val(data.belok);
+        $('#hadap').val(data.hadap);
+        $('#lari').val(data.lari);
+        $('#pushup').val(data.pushup);
+        $('#situp').val(data.situp);
+        $('#pullup').val(data.pullup);
+        $('#tb').val(data.tb);
+        $('#bb').val(data.bb);
+        $('#bentuk_kaki').val(data.bentuk_kaki);
+        $('#save-nilai').val('edit-user');
+        $('#modal-title').html('Edit Nilai');
+    })
+})
+
+// input dan update nilai
+$('#save-nilai').on('click', function (e) {
+    e.preventDefault();
+
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    var data = $('#nilai-form').serialize();
+    var button = $('#save-nilai').val();
+    var nilai_id = $('#nilai-id').val();
+
+    if (button == 'create') {
+        $.ajax({
+            type: 'POST',
+            url: '/nilai/add',
+            data: data,
+            success: function (response) {
+                console.log(response);
+                Swal.fire(
+                    'Success',
+                    'Data Berhasil Ditambahkan',
+                    'success'
+                ).then(() => {
+                    location.reload();
+                })
+            },
+            error: function (data) {
+                var errors = $.parseJSON(data.responseText);
+                console.log(errors);
+            }
+        })
+    } else {
+        $.ajax({
+            type: 'PUT',
+            url: '/nilai/update/' + nilai_id,
+            data: data,
+            success: function (response) {
+                console.log(response);
+                Swal.fire(
+                    'Success',
+                    'Data Berhasil Diubah',
+                    'success'
+                ).then(() => {
+                    location.reload();
+                })
+            },
+            error: function (data) {
+                var errors = $.parseJSON(data.responseText);
+                console.log(errors);
+            }
+        })
+    }
+})
+
+// detail nilai
+$(document).on('click', '#detail-nilai', function (e) {
+    e.preventDefault();
+
+    var nilai_id = $(this).data('id');
+    var url = '/nilai/detail/';
+    $.get(url + nilai_id, function (data) {
+        var bentuk_kaki;
+        if (data.bentuk_kaki == 5) {
+            bentuk_kaki = "Normal"
+        } else if (data.bentuk_kaki == 3) {
+            bentuk_kaki = "X / O kurang dari 5cm"
+        } else {
+            bentuk_kaki = "X / O lebih dari 5cm"
+        }
+
+        $('#nama_lengkap').html(data.nama_lengkap);
+        $('#gender').html(data.asal_sekolah);
+        $('#sekolah').html(data.jenis_kelamin);
+        $('#nilai_akademik').html(data.akademik);
+        $('#nilai_jalan_ditempat').html(data.jalan_ditempat);
+        $('#nilai_langkah_tegap').html(data.langkah_tegap);
+        $('#nilai_penghormatan').html(data.penghormatan);
+        $('#nilai_belok').html(data.belok);
+        $('#nilai_hadap').html(data.hadap);
+        $('#nilai_lari').html(data.lari);
+        $('#nilai_pushup').html(data.pushup);
+        $('#nilai_situp').html(data.situp);
+        $('#nilai_pullup').html(data.pullup);
+        $('#nilai_tb').html(data.tb);
+        $('#nilai_bb').html(data.bb);
+        $('#nilai_bentuk_kaki').html(bentuk_kaki);
+    })
+
+})
