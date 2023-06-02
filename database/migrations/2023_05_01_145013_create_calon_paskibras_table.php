@@ -15,6 +15,7 @@ class CreateCalonPaskibrasTable extends Migration
     {
         Schema::create('tb_calon_paskibraka', function (Blueprint $table) {
             $table->id();
+            $table->string('periode');
             $table->string('name');
             $table->string('alamat');
             $table->string('asal_sekolah');

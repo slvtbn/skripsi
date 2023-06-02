@@ -26,9 +26,9 @@
                         @foreach ($data_nilai as $data)
                         <tr>
                             <td>{{ $no++ }}</td>
-                            <td>{{ $data->nama_lengkap }}</td>
-                            <td>{{ $data->asal_sekolah }}</td>
-                            <td>{{ $data->jenis_kelamin }}</td>
+                            <td>{{ $data->calon_paskibraka->name }}</td>
+                            <td>{{ $data->calon_paskibraka->asal_sekolah }}</td>
+                            <td>{{ $data->calon_paskibraka->jenis_kelamin }}</td>
                             <td>
                                 <form action="{{ route('delete-nilai', $data->id) }}" method="post" id="formDelete-{{ $data->id }}">
                                     @csrf
@@ -52,7 +52,7 @@
 <form id="nilai-form">
     @csrf
     <input type="hidden" id="nilai-id" name="id">
-    <div class="modal fade" id="modalAjax" tabindex="-1" aria-hidden="true">
+    <div class="modal fade" id="modalAjax" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -64,63 +64,74 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label style="font-size:15px" for="nama_lengkap">Nama Lengkap</label>
-                        <input type="text" class="form-control" value="" name="nama_lengkap" id="search_name" autocomplete="off" >
-                    </div>
-                    <div class="form-group">
-                        <label style="font-size:15px" for="asal_sekolah">Asal Sekolah</label>
-                        <input type="text" class="form-control" value="" name="asal_sekolah" id="asal_sekolah" readonly  autocomplete="off">
-                    </div>
-                    <div class="form-group">
-                        <label style="font-size:15px" for="jenis_kelamin">Jenis Kelamin</label>
-                        <input type="text" class="form-control" value="" name="jenis_kelamin" id="jenis_kelamin" readonly  autocomplete="off">
+                        {{-- <input type="text" class="form-control" value="" name="nama_lengkap" id="search_name" autocomplete="off" > --}}
+                       <select id="cari-nama" class="form-control" name="calon_paskibraka_id" style="width: 100%;">
+                            <option value="" disabled selected>-- Pilih Nama Calon Paskibra --</option>
+                            @foreach ($data_calon as $data)
+                                <option value={{ $data->id }}>{{ $data->name }}</option>
+                            @endforeach
+                       </select>
+                       <p class="error" id="calon_paskibraka_id-error" style="color:red; margin: 0; font-size:12px"></p>
                     </div>
                     <div class="form-group">
                         <label style="font-size:15px" for="akademik">Akademik</label>
                         <input type="text" class="form-control" value="" id="akademik" name="akademik">
+                        <p class="error" id="akademik-error" style="color:red; margin: 0; font-size:12px"></p>
                     </div>
                     <div class="form-group">
                         <label style="font-size:15px" for="jalan_ditempat">Jalan Ditempat</label>
                         <input type="text" class="form-control" value="" id="jalan_ditempat" name="jalan_ditempat">
+                        <p class="error" id="jalan_ditempat-error" style="color:red; margin: 0; font-size:12px"></p>
                     </div>
                     <div class="form-group">
                         <label style="font-size:15px" for="langkah_tegap">Langkah Tegap</label>
                         <input type="text" class="form-control" value="" id="langkah_tegap" name="langkah_tegap">
+                        <p class="error" id="langkah_tegap-error" style="color:red; margin: 0; font-size:12px"></p>
                     </div>
                     <div class="form-group">
                         <label style="font-size:15px" for="penghormatan">Penghormatan</label>
                         <input type="text" class="form-control" value="" id="penghormatan" name="penghormatan">
+                        <p class="error" id="penghormatan-error" style="color:red; margin: 0; font-size:12px"></p>
                     </div>
                     <div class="form-group">
                         <label style="font-size:15px" for="belok">Belok</label>
                         <input type="text" class="form-control" value="" id="belok" name="belok">
+                        <p class="error" id="belok-error" style="color:red; margin: 0; font-size:12px"></p>
                     </div>
                     <div class="form-group">
                         <label style="font-size:15px" for="hadap">Hadap</label>
                         <input type="text" class="form-control" value="" id="hadap" name="hadap">
+                        <p class="error" id="hadap-error" style="color:red; margin: 0; font-size:12px"></p>
                     </div>
                     <div class="form-group">
                         <label style="font-size:15px" for="lari">Lari</label>
                         <input type="text" class="form-control" value="" id="lari" name="lari">
+                        <p class="error" id="lari-error" style="color:red; margin: 0; font-size:12px"></p>
                     </div>
                     <div class="form-group">
                         <label style="font-size:15px" for="pushup">Push Up</label>
                         <input type="text" class="form-control" value="" id="pushup" name="pushup">
+                        <p class="error" id="pushup-error" style="color:red; margin: 0; font-size:12px"></p>
                     </div>
                     <div class="form-group">
                         <label style="font-size:15px" for="situp">Sit Up</label>
                         <input type="text" class="form-control" value="" id="situp" name="situp">
+                        <p class="error" id="situp-error" style="color:red; margin: 0; font-size:12px"></p>
                     </div>
                     <div class="form-group">
                         <label style="font-size:15px" for="pullup">Pull Up</label>
                         <input type="text" class="form-control" value="" id="pullup" name="pullup">
+                        <p class="error" id="pullup-error" style="color:red; margin: 0; font-size:12px"></p>
                     </div>
                     <div class="form-group">
                         <label style="font-size:15px" for="tb">Tinggi Badan</label>
                         <input type="text" class="form-control" value="" id="tb" name="tb">
+                        <p class="error" id="tb-error" style="color:red; margin: 0; font-size:12px"></p>
                     </div>
                     <div class="form-group">
                         <label style="font-size:15px" for="bb">Berat Badan</label>
                         <input type="text" class="form-control" value="" id="bb" name="bb">
+                        <p class="error" id="bb-error" style="color:red; margin: 0; font-size:12px"></p>
                     </div>
                     <div class="form-group">
                         <label style="font-size:15px" for="bentuk_kaki">Bentuk Kaki</label>
@@ -130,6 +141,7 @@
                             <option value="3">X / O <= 5cm</option>
                             <option value="1">X / 0 > 5cm</option>
                         </select>
+                        <p class="error" id="bentuk_kaki-error" style="color:red; margin: 0; font-size:12px"></p>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -220,10 +232,10 @@
                                     </thead>
                                     <tbody>    
                                         <tr>
-                                            <td id="nilai_lari">Lari</td>
-                                            <td id="nilai_pushup">Push Up</td>
-                                            <td id="nilai_situp">Sit Up</td>
-                                            <td id="nilai_pullup">Pull Up</td>
+                                            <td id="nilai_lari"></td>
+                                            <td id="nilai_pushup"></td>
+                                            <td id="nilai_situp"></td>
+                                            <td id="nilai_pullup"></td>
                                         </tr>            
                                     </tbody>
                                 </table>
@@ -244,9 +256,9 @@
                                     </thead>
                                     <tbody>    
                                         <tr>
-                                            <td id="nilai_tb">Tinggi Badan</td>
-                                            <td id="nilai_bb">Berat Badan</td>
-                                            <td id="nilai_bentuk_kaki">Bentuk Kaki</td>
+                                            <td id="nilai_tb"></td>
+                                            <td id="nilai_bb"></td>
+                                            <td id="nilai_bentuk_kaki"></td>
                                         </tr>            
                                     </tbody>
                                 </table>

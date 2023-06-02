@@ -9,5 +9,5 @@ class CalonPaskibra extends Model
 {
     use HasFactory;
     protected $table = 'tb_calon_paskibraka';
-    protected $fillable = ['name', 'alamat', 'asal_sekolah', 'jenis_kelamin', 'tgl_lahir', 'no_telp'];
+    protected $fillable = ['periode', 'name', 'alamat', 'asal_sekolah', 'jenis_kelamin', 'tgl_lahir', 'no_telp'];
 }

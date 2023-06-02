@@ -15,6 +15,7 @@
   <!-- Template CSS -->
   <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
   <link rel="stylesheet" href="{{ asset('assets/css/components.css') }}">
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
   {{-- <link rel="stylesheet" href="sweetalert2.min.css"> --}}
 <!-- Start GA -->
@@ -74,25 +75,29 @@
   <script src="{{ asset('assets/js/scripts.js') }}"></script>
   <script src="{{ asset('assets/js/custom.js') }}"></script>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.2/bootstrap3-typeahead.min.js" ></script>
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
   
   <script>
 
-    var url = '/nilai/search-name'
-    $('#search_name').typeahead({
-        source: function (query, process) {
-            return $.get(url, {
-              query: query
-            }, function (data) {
-              return process(data);
-            });
-        }, 
-        updater: function(item) {
-          $('#asal_sekolah').val(item.asal_sekolah);
-          $('#jenis_kelamin').val(item.jenis_kelamin);
-          return item;
-        }
-    });
+    // var url = '/nilai/search-name'
+    // $('#search_name').typeahead({
+    //     source: function (query, process) {
+    //         return $.get(url, {
+    //           query: query
+    //         }, function (data) {
+    //           return process(data);
+    //         });
+    //     }, 
+    //     updater: function(item) {
+    //       $('#asal_sekolah').val(item.asal_sekolah);
+    //       $('#jenis_kelamin').val(item.jenis_kelamin);
+    //       return item;
+    //     }
+    // });
+
+    $(document).ready(function() {
+      $('#cari-nama').select2();
+    })
   </script>
 </body>
 </html>

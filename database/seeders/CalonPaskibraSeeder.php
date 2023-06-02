@@ -15,6 +15,7 @@ class CalonPaskibraSeeder extends Seeder
     public function run()
     {
         CalonPaskibra::create([
+            'periode' => '2023',
             'name' => 'Silva',
             'alamat' => 'Jl. Dolog no 33',
             'asal_sekolah' => 'SMA Negeri 1',
@@ -23,6 +24,7 @@ class CalonPaskibraSeeder extends Seeder
             'no_telp' => '123456'
         ]);
         CalonPaskibra::create([
+            'periode' => '2023',
             'name' => 'Ridho',
             'alamat' => 'Jl. Dolog no 33',
             'asal_sekolah' => 'SMA Negeri 1',
@@ -31,6 +33,7 @@ class CalonPaskibraSeeder extends Seeder
             'no_telp' => '123456'
         ]);
         CalonPaskibra::create([
+            'periode' => '2023',
             'name' => 'Imam',
             'alamat' => 'Jl. Dolog no 33',
             'asal_sekolah' => 'SMA Negeri 1',
@@ -39,6 +42,7 @@ class CalonPaskibraSeeder extends Seeder
             'no_telp' => '123456'
         ]);
         CalonPaskibra::create([
+            'periode' => '2023',
             'name' => 'Yuanita',
             'alamat' => 'Jl. Dolog no 33',
             'asal_sekolah' => 'SMA Negeri 1',
@@ -47,6 +51,7 @@ class CalonPaskibraSeeder extends Seeder
             'no_telp' => '123456'
         ]);
         CalonPaskibra::create([
+            'periode' => '2023',
             'name' => 'Egi',
             'alamat' => 'Jl. Dolog no 33',
             'asal_sekolah' => 'SMA Negeri 1',
@@ -55,6 +60,7 @@ class CalonPaskibraSeeder extends Seeder
             'no_telp' => '123456'
         ]);
         CalonPaskibra::create([
+            'periode' => '2023',
             'name' => 'Fikar',
             'alamat' => 'Jl. Dolog no 33',
             'asal_sekolah' => 'SMA Negeri 1',

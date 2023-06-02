@@ -8,11 +8,11 @@ use App\Model\Kriteria;
 
 class KriteriaRequest extends FormRequest
 {
-    // protected $id;
+    protected $id;
 
-    // public function __construct(Request $request) {
-    //     $this->id = (integer) $request->route()->kriteria;
-    // }
+    public function __construct(Request $request) {
+        $this->id = (integer) $request->route()->update_kriteria;
+    }
     
     /**
      * Determine if the user is authorized to make this request.
@@ -31,10 +31,12 @@ class KriteriaRequest extends FormRequest
      */
     public function rules()
     {
+        $id = $this->method() == 'PUT' ? $this->route('id') : null;
+
         return [
             'aspek_id' => 'required',
-            'simbol' => 'required|unique:tb_kriteria,simbol' . $this->id . ',id',
-            'kriteria' => 'required|unique:tb_kriteria,kriteria',
+            'simbol' => 'required|unique:tb_kriteria,simbol,' .  $id,
+            'kriteria' => 'required|unique:tb_kriteria,kriteria, ' . $id,
             'nilai_target' => 'required',
             'kelas' => 'required',
         ];

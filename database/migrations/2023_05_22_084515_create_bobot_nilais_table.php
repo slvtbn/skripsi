@@ -15,7 +15,7 @@ class CreateBobotNilaisTable extends Migration
     {
         Schema::create('tb_bobot_nilai', function (Blueprint $table) {
             $table->id();
-            $table->string('nama_capas');
+            $table->unsignedBigInteger('nilai_id');
             $table->bigInteger('bobot_akademik');
             $table->bigInteger('bobot_jalan_ditempat');
             $table->bigInteger('bobot_langkah_tegap');

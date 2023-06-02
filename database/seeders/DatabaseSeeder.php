@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
             NilaiTbSeeder::class,
             AspekSeeder::class,
             CalonPaskibraSeeder::class,
+            KriteriaSeeder::class,
         ]);
     }
 }

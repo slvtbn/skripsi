@@ -15,7 +15,7 @@
         <ul class="dropdown-menu">
           <li><a class="nav-link" href="{{ route('show-aspek') }}">Aspek Penilaian</a></li>
           <li><a class="nav-link" href="{{ route('show-kriteria') }}">Kriteria Penilaian</a></li>
-          <li><a class="nav-link" href="{{ route('show-skala') }}">Skala Penilaian</a></li>
+          {{-- <li><a class="nav-link" href="{{ route('show-skala') }}">Skala Penilaian</a></li> --}}
         </ul>
       </li>
       <li class="dropdown">

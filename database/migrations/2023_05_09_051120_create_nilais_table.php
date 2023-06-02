@@ -15,9 +15,7 @@ class CreateNilaisTable extends Migration
     {
         Schema::create('tb_nilai', function (Blueprint $table) {
             $table->id();
-            $table->string('nama_lengkap');
-            $table->string('asal_sekolah');
-            $table->string('jenis_kelamin');
+            $table->unsignedBigInteger('calon_paskibraka_id');
             $table->integer('akademik');
             $table->integer('jalan_ditempat');
             $table->integer('langkah_tegap');
@@ -32,6 +30,10 @@ class CreateNilaisTable extends Migration
             $table->integer('bb');
             $table->integer('bentuk_kaki');
             $table->timestamps();
+        });
+
+        Schema::table('tb_nilai', function (Blueprint $table) {
+            $table->foreign('calon_paskibraka_id')->references('id')->on('tb_calon_paskibraka')->onDelete('cascade');
         });
     }
 

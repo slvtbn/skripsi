@@ -114,7 +114,7 @@ $(document).on('click', '#edit-kriteria', function (e) {
         var nama_kelas = data.kelas;
         $('#modalEdit').modal('show');
         $('#kriteria-id').val(data.id);
-        $('#aspek_id option[value=' + aspek_id + ']').attr('selected', true);
+        $('#aspek_id').val(data.aspek_id);
         $('#simbol').val(data.simbol);
         $('#kriteria').val(data.kriteria);
         $('#nilai_target').val(data.nilai_target);
@@ -133,6 +133,8 @@ $('#save-kriteria').on('click', function (e) {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
+
+    $('.error').html('');
 
     var kriteria_id = $('#kriteria-id').val();
     var aspek_id = $('#aspek_id').val();
@@ -196,7 +198,7 @@ $('#save-kriteria').on('click', function (e) {
             },
             error: function (data) {
                 var errors = $.parseJSON(data.responseText);
-                console.log(errors['errors']);
+                console.log(errors);
                 $.each(errors.errors, function (key, val) {
                     $('#' + key + "-error").html(val[0]);
                 })
@@ -216,6 +218,7 @@ $(document).on('click', '#edit-calon-paskib', function (e) {
         // var nama_kelas = data.kelas;
         $('#modalEdit').modal('show');
         $('#calon-paskib-id').val(data.id);
+        $('#periode').val(data.periode);
         $('#name').val(data.name);
         $('#alamat').val(data.alamat);
         $('#asal_sekolah').val(data.asal_sekolah);
@@ -237,7 +240,10 @@ $('#save-calon-paskib').on('click', function (e) {
         }
     });
 
+    $('.error').html('');
+
     var calon_paskib_id = $('#calon-paskib-id').val();
+    var periode = $('#periode').val();
     var name = $('#name').val();
     var alamat = $('#alamat').val();
     var asal_sekolah = $('#asal_sekolah').val();
@@ -252,6 +258,7 @@ $('#save-calon-paskib').on('click', function (e) {
             type: 'POST',
             url: '/calon-paskib/add',
             data: {
+                'periode': periode,
                 'name': name,
                 'alamat': alamat,
                 'asal_sekolah': asal_sekolah,
@@ -266,12 +273,16 @@ $('#save-calon-paskib').on('click', function (e) {
                     'Data Berhasil Ditambahkan',
                     'success'
                 ).then(() => {
-                    location.reload();
+                    window.location = "/calon-paskib"
+                    // location.reload();
                 })
             },
             error: function (data) {
                 var errors = $.parseJSON(data.responseText);
                 console.log(errors);
+                $.each(errors.errors, function (key, val) {
+                    $('#' + key + "-error").html(val[0]);
+                })
             }
         })
     } else {
@@ -279,6 +290,7 @@ $('#save-calon-paskib').on('click', function (e) {
             type: 'PUT',
             url: '/calon-paskib/update/' + calon_paskib_id,
             data: {
+                'periode': periode,
                 'name': name,
                 'alamat': alamat,
                 'asal_sekolah': asal_sekolah,
@@ -293,16 +305,69 @@ $('#save-calon-paskib').on('click', function (e) {
                     'Success',
                     'Data Berhasil Diubah',
                     'success').then(() => {
-                    location.reload();
+                    window.location = "/calon-paskib"
+                    // location.reload();
                 });
             },
             error: function (data) {
                 var errors = $.parseJSON(data.responseText);
                 console.log(errors);
+                $.each(errors.errors, function (key, val) {
+                    $('#' + key + "-error").html(val[0]);
+                })
             }
         })
     }
 })
+
+// pilih periode untuk tampilkan data
+// $('body').on('change', '#periode-tampil', function (e) {
+//     e.preventDefault();
+
+//     $.ajaxSetup({
+//         headers: {
+//             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+//         }
+//     });
+
+//     var value = $(this).find(":selected").val();
+//     console.log(value);
+
+//     $.ajax({
+//         type: 'GET',
+//         url: '/calon-paskib/periode-tampil',
+//         data: {
+//             'periode': value
+//         },
+//         success: function (response) {
+//             console.log(response.data);
+//             $.each(response.data, function (value, index) {
+//                 $('tbody').append(`
+//                     <tr>
+//                         <td>{{ $no++ }}</td>
+//                         <td>${index.name}</td>
+//                         <td>${index.alamat}</td>
+//                         <td>${index.asal_sekolah}</td>
+//                         <td>${index.jenis_kelamin}</td>
+//                         <td>${index.tgl_lahir}</td>
+//                         <td>${index.no_telp}</td>
+//                         <td>
+//                             <form action="{{ route('delete-calon-paskib', $data->id) }}" method="post" id="formDelete-{{ $data->id }}">
+//                                 <a href="javascript:void(0)" id="edit-calon-paskib" data-toggle="modal" data-target="#modalAjax" data-id="{{ $data->id }}" class="btn btn-secondary btn-action mr-1" data-toggle="tooltip" title="" data-original-title="{{ $data->id }}"><i class="fas fa-pencil-alt pt-1"></i></a>
+//                                 <a class="btn btn-danger btn-action" data-toggle="tooltip" title="" data-confirm="Anda Yakin Ingin Menghapus Data?" data-confirm-yes="submitDelete({{ $data->id }})" data-original-title="Delete"><i class="fas fa-trash pt-1"></i>
+//                                 </a>
+//                             </form>
+//                         </td>
+//                     </tr>
+//                 `)
+//             });
+//         },
+//         error: function (data) {
+//             var errors = $.parseJSON(data.responseText);
+//             console.log(data);
+//         }
+//     })
+// })
 
 // Edit nilai
 $(document).on('click', '#edit-nilai', function (e) {
@@ -311,9 +376,12 @@ $(document).on('click', '#edit-nilai', function (e) {
     var nilai_id = $(this).data('id');
     var url = '/nilai/edit/';
     $.get(url + nilai_id, function (data) {
+        console.log(data)
         $('#modalEdit').modal('show');
         $('#nilai-id').val(data.id);
-        $('#search_name').val(data.nama_lengkap);
+        $('#cari-nama').val(data.calon_paskibraka_id);
+        $('#cari-nama').trigger('change');
+        // $('#cari-nama option[value=" + data.calon_paskibraka_id + "]').attr('selected', true);
         $('#asal_sekolah').val(data.asal_sekolah);
         $('#jenis_kelamin').val(data.jenis_kelamin);
         $('#akademik').val(data.akademik);
@@ -344,6 +412,8 @@ $('#save-nilai').on('click', function (e) {
         }
     });
 
+    $('.error').html('');
+
     var data = $('#nilai-form').serialize();
     var button = $('#save-nilai').val();
     var nilai_id = $('#nilai-id').val();
@@ -366,6 +436,9 @@ $('#save-nilai').on('click', function (e) {
             error: function (data) {
                 var errors = $.parseJSON(data.responseText);
                 console.log(errors);
+                $.each(errors.errors, function (key, val) {
+                    $('#' + key + "-error").html(val[0]);
+                })
             }
         })
     } else {
@@ -386,6 +459,9 @@ $('#save-nilai').on('click', function (e) {
             error: function (data) {
                 var errors = $.parseJSON(data.responseText);
                 console.log(errors);
+                $.each(errors.errors, function (key, val) {
+                    $('#' + key + "-error").html(val[0]);
+                })
             }
         })
     }
@@ -407,9 +483,9 @@ $(document).on('click', '#detail-nilai', function (e) {
             bentuk_kaki = "X / O lebih dari 5cm"
         }
 
-        $('#nama_lengkap').html(data.nama_lengkap);
-        $('#gender').html(data.asal_sekolah);
-        $('#sekolah').html(data.jenis_kelamin);
+        $('#nama_lengkap').html(data.calon_paskibraka.name);
+        $('#gender').html(data.calon_paskibraka.asal_sekolah);
+        $('#sekolah').html(data.calon_paskibraka.jenis_kelamin);
         $('#nilai_akademik').html(data.akademik);
         $('#nilai_jalan_ditempat').html(data.jalan_ditempat);
         $('#nilai_langkah_tegap').html(data.langkah_tegap);

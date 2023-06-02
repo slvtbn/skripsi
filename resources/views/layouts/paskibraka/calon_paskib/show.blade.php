@@ -5,6 +5,23 @@
 @section('content')
 
     <a href="#" data-toggle="modal" data-target="#modalAjax" class="btn btn-primary btn-action mb-3" style="width: 10%" data-toggle="tooltip" title="" data-original-title="Tambah"><i class="fas fa-plus pt-1"></i></a>
+    
+    <form id="form-periode" action="{{ route('show-periode') }}" method="post">
+        @csrf
+        <div class="form-group ml-auto" style="width: 20%">
+            <select class="form-control" id="periode-tampil" name="periode" onChange="document.getElementById('form-periode').submit()">
+                <option value="">-- Pilih Tahun Periode --</option>
+                @php
+                    $tahun_now = \Carbon\Carbon::now()->format('Y');
+                    $tahun_last = \Carbon\Carbon::now()->format('Y')-5;
+                @endphp
+    
+                @for($i = $tahun_now; $i >= $tahun_last; $i--)
+                    <option value="{{ $i }}">{{ $i }}</option>
+                @endfor
+            </select>
+        </div>
+    </form>
     <div class="card">
         <div class="card-body p-0">
             <div class="table-responsive">
@@ -70,16 +87,34 @@
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
+                            <label style="font-size:15px" for="periode">Periode Penerimaan</label>
+                            <select class="form-control" id="periode">
+                                <option value="">-- Pilih Tahun Periode --</option>
+                                @php
+                                    $tahun_now = \Carbon\Carbon::now()->format('Y');
+                                    $tahun_last = \Carbon\Carbon::now()->format('Y')-5;
+                                @endphp
+
+                                @for($i = $tahun_now; $i >= $tahun_last; $i--)
+                                    <option value="{{ $i }}">{{ $i }}</option>
+                                @endfor
+                            </select>
+                            <p class="error" id="periode-error" style="color:red; margin: 0; font-size:12px"></p>
+                        </div>
+                        <div class="form-group">
                             <label style="font-size:15px" for="name">Nama Lengkap</label>
                             <input type="text" class="form-control" value="" id="name">
+                            <p class="error" id="name-error" style="color:red; margin: 0; font-size:12px"></p>
                         </div>
                         <div class="form-group">
                             <label style="font-size:15px" for="alamat">Alamat</label>
                             <input type="text" class="form-control" value="" id="alamat">
+                            <p class="error" id="alamat-error" style="color:red; margin: 0; font-size:12px"></p>
                         </div>
                         <div class="form-group">
                             <label style="font-size:15px" for="asal_sekolah">Asal Sekolah</label>
                             <input type="text" class="form-control" value="" id="asal_sekolah">
+                            <p class="error" id="asal_sekolah-error" style="color:red; margin: 0; font-size:12px"></p>
                         </div>
                         <div class="form-group">
                             <label style="font-size:15px" for="jenis_kelamin">Jenis Kelamin</label>
@@ -88,14 +123,17 @@
                                 <option value="Laki-laki">Laki-laki</option>
                                 <option value="Perempuan">Perempuan</option>
                             </select>
+                            <p class="error" id="jenis_kelamin-error" style="color:red; margin: 0; font-size:12px"></p>
                         </div>
                         <div class="form-group">
                             <label style="font-size:15px" for="tgl_lahir">Tanggal Lahir</label>
                             <input type="date" class="form-control" value="" id="tgl_lahir">
+                            <p class="error" id="tgl_lahir-error" style="color:red; margin: 0; font-size:12px"></p>
                         </div>
                         <div class="form-group">
                             <label style="font-size:15px" for="no_telp">No Telp</label>
                             <input type="text" class="form-control" value="" id="no_telp">
+                            <p class="error" id="no_telp-error" style="color:red; margin: 0; font-size:12px"></p>
                         </div>
                     </div>
                     <div class="modal-footer">

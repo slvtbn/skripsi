@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\CalonPaskibra;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -10,7 +11,14 @@ use App\Http\Requests\CalonPaskibrakaRequest;
 class CalonPaskibraController extends Controller
 {
     public function calonPaskibShow() {
-        $data_paskib = CalonPaskibra::all();
+        $tahun_sekarang = Carbon::now()->format('Y');
+        $data_paskib = CalonPaskibra::where('periode', $tahun_sekarang)->get();
+        // dd($data_paskib);
+        return view('layouts.paskibraka.calon_paskib.show', compact('data_paskib'));
+    }
+
+    public function calonPaskibShowPeriode(Request $request) {
+        $data_paskib = CalonPaskibra::where('periode', $request->periode)->get();
         return view('layouts.paskibraka.calon_paskib.show', compact('data_paskib'));
     }
 
@@ -33,6 +41,7 @@ class CalonPaskibraController extends Controller
     public function calonPaskibUpdate(CalonPaskibrakaRequest $request, $id) {
         $data = CalonPaskibra::find($id);
         $data->update([
+            'periode' => $request->periode,
             'name' => $request->name,
             'alamat' => $request->alamat,
             'asal_sekolah' => $request->asal_sekolah,
