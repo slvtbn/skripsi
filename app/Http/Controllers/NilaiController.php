@@ -127,7 +127,10 @@ class NilaiController extends Controller
     public function nilaiDelete($id) {
         $data = Nilai::where('id', $id)->delete();
 
-        Alert::success('Success', 'Berhasil Menghapus Data');
-        return redirect()->route('show-nilai');
+        return response()->json([
+            'success' => true,
+            'message' => 'Data Berhasil di Hapus',
+            'data' => $data
+        ]);
     }
 }

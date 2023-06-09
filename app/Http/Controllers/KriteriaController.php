@@ -58,7 +58,10 @@ class KriteriaController extends Controller
     public function kriteriaDelete($id) {
         $data = Kriteria::where('id', $id)->delete();
 
-        Alert::success('Success','Berhasil Menghapus Data');
-        return redirect()->route('show-kriteria');
+        return response()->json([
+            'success' => true,
+            'message' => 'Data Berhasil di Hapus',
+            'data' => $data
+        ]);
     }
 }

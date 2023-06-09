@@ -30,14 +30,12 @@
                             <td>{{ $data->calon_paskibraka->asal_sekolah }}</td>
                             <td>{{ $data->calon_paskibraka->jenis_kelamin }}</td>
                             <td>
-                                <form action="{{ route('delete-nilai', $data->id) }}" method="post" id="formDelete-{{ $data->id }}">
-                                    @csrf
-                                    @method('delete')
-                                    <a href="javascript:void(0)" id="edit-nilai" data-toggle="modal" data-target="#modalAjax" data-id="{{ $data->id }}" class="btn btn-secondary btn-action mr-1" data-toggle="tooltip" title="" data-original-title="{{ $data->id }}"><i class="fas fa-pencil-alt pt-1"></i></a>
-                                    <a class="btn btn-danger btn-action mr-1" data-toggle="tooltip" title="" data-confirm="Anda Yakin Ingin Menghapus Data?" data-confirm-yes="submitDelete({{ $data->id }})"><i class="fas fa-trash pt-1"></i>
-                                    </a>
-                                    <a class="btn btn-primary btn-action" id="detail-nilai" data-toggle="modal" data-target="#modalDetail" data-id="{{ $data->id }}" title=""><i class="fas fa-info pt-1"></i></a>
-                                </form>
+                                <a href="javascript:void(0)" id="edit-nilai" data-toggle="modal" data-target="#modalAjax" data-id="{{ $data->id }}" class="btn btn-secondary btn-action mr-1" data-toggle="tooltip" title="" data-original-title="{{ $data->id }}"><i class="fas fa-pencil-alt pt-1"></i></a>
+
+                                <a href="javascript:void(0)" class="btn btn-danger btn-action delete-nilai mr-1" data-toggle="modal" data-id="{{ $data->id }}" data-toggle="tooltip"><i class="fas fa-trash pt-1"></i>
+                                </a>
+
+                                <a class="btn btn-primary btn-action" id="detail-nilai" data-toggle="modal" data-target="#modalDetail" data-id="{{ $data->id }}" title=""><i class="fas fa-info pt-1"></i></a>
                             </td>
                         </tr>
                         @endforeach

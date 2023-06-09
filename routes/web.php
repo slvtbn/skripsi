@@ -43,7 +43,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
     Route::get('/calon-paskib/edit/{id}', [CalonPaskibraController::class, 'calonPaskibEdit'])->name('edit-calon-paskib');
     Route::put('/calon-paskib/update/{id}', [CalonPaskibraController::class, 'calonPaskibUpdate'])->name('update-calon-paskib');
     Route::delete('/calon-paskib/delete/{id}', [CalonPaskibraController::class, 'calonPaskibDelete'])->name('delete-calon-paskib');
-    Route::post('/calon-paskib/periode-tampil', [CalonPaskibraController::class, 'calonPaskibShowPeriode'])->name('show-periode');
+    Route::get('/calon-paskib/periode-tampil', [CalonPaskibraController::class, 'calonPaskibShowPeriode'])->name('show-periode');
 
     Route::get('/nilai', [NilaiController::class, 'nilaiShow'])->name('show-nilai');
     // Route::get('/nilai/search-name', [NilaiController::class, 'searchName'])->name('search-name');

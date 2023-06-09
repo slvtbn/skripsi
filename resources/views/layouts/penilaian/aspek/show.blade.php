@@ -24,16 +24,12 @@
                 <tr>
                     <td>{{ $no++ }}</td>
                     <td>{{ $d->aspek }}</td>
-                    <form action="{{ route('delete-aspek', $d->id) }}" method="post" id="formDelete-{{ $d->id }}">
-                        <td>
-                            @csrf
-                            @method('delete')
-                            <a href="javascript:void(0)" id="edit-aspek" data-toggle="modal" data-target="#modalAjax" data-id="{{ $d->id }}" class="btn btn-secondary btn-action mr-1" data-toggle="tooltip" title="" data-original-title="{{ $d->id }}"><i class="fas fa-pencil-alt pt-1"></i></a>
-                            <a class="btn btn-danger btn-action" data-toggle="tooltip" title="" data-confirm="Anda Yakin Ingin Menghapus Data?" data-confirm-yes="submitDelete({{ $d->id }})" data-original-title="{{ $d->id }}"><i class="fas fa-trash pt-1"></i>
-                            </a>
-                            
-                        </td>
-                    </form>
+                    <td>
+                        <a href="javascript:void(0)" id="edit-aspek" data-toggle="modal" data-target="#modalAjax" data-id="{{ $d->id }}" class="btn btn-secondary btn-action mr-1" data-toggle="tooltip" title="" data-original-title="{{ $d->id }}"><i class="fas fa-pencil-alt pt-1"></i></a>
+                        
+                        <a href="javascript:void(0)" class="btn btn-danger btn-action delete-aspek" data-toggle="modal" data-id="{{ $d->id }}" data-toggle="tooltip"><i class="fas fa-trash pt-1"></i>
+                        </a>
+                    </td>
                 </tr>
                 @endforeach
                 </tbody>

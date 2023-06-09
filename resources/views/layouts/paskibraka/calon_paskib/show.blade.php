@@ -6,10 +6,10 @@
 
     <a href="#" data-toggle="modal" data-target="#modalAjax" class="btn btn-primary btn-action mb-3" style="width: 10%" data-toggle="tooltip" title="" data-original-title="Tambah"><i class="fas fa-plus pt-1"></i></a>
     
-    <form id="form-periode" action="{{ route('show-periode') }}" method="post">
+    {{-- <form id="form-periode" action="{{ route('show-periode') }}" method="get"> --}}
         @csrf
         <div class="form-group ml-auto" style="width: 20%">
-            <select class="form-control" id="periode-tampil" name="periode" onChange="document.getElementById('form-periode').submit()">
+            <select class="form-control" id="periode-tampil" name="periode">
                 <option value="">-- Pilih Tahun Periode --</option>
                 @php
                     $tahun_now = \Carbon\Carbon::now()->format('Y');
@@ -21,11 +21,11 @@
                 @endfor
             </select>
         </div>
-    </form>
+    {{-- </form> --}}
     <div class="card">
         <div class="card-body p-0">
             <div class="table-responsive">
-            <table class="table table-striped mb-0">
+            <table class="table table-striped mb-0" id="data-table">
                 <thead>
                 <tr>
                     <th>No</th>
@@ -53,13 +53,10 @@
                         <td>{{\Carbon\Carbon::parse($data->tgl_lahir)->isoFormat('D MMMM Y')}}</td>
                         <td>{{ $data->no_telp }}</td>
                         <td>
-                            <form action="{{ route('delete-calon-paskib', $data->id) }}" method="post" id="formDelete-{{ $data->id }}">
-                                @csrf
-                                @method('delete')
-                                <a href="javascript:void(0)" id="edit-calon-paskib" data-toggle="modal" data-target="#modalAjax" data-id="{{ $data->id }}" class="btn btn-secondary btn-action mr-1" data-toggle="tooltip" title="" data-original-title="{{ $data->id }}"><i class="fas fa-pencil-alt pt-1"></i></a>
-                                <a class="btn btn-danger btn-action" data-toggle="tooltip" title="" data-confirm="Anda Yakin Ingin Menghapus Data?" data-confirm-yes="submitDelete({{ $data->id }})" data-original-title="Delete"><i class="fas fa-trash pt-1"></i>
-                                </a>
-                            </form>
+                            <a href="javascript:void(0)" id="edit-calon-paskib" data-toggle="modal" data-target="#modalAjax" data-id="{{ $data->id }}" class="btn btn-secondary btn-action mr-1" data-toggle="tooltip"><i class="fas fa-pencil-alt pt-1"></i></a>
+
+                            <a href="javascript:void(0)" class="btn btn-danger btn-action delete-calon-paskib" data-toggle="modal" data-id="{{ $data->id }}" data-toggle="tooltip"><i class="fas fa-trash pt-1"></i>
+                            </a>
                         </td>
                     </tr>
                     @endforeach

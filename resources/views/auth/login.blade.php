@@ -10,6 +10,11 @@
                     <div class="login-brand">
                     <img src="assets/img/stisla-fill.svg" alt="logo" width="100" class="shadow-light rounded-circle">
                     </div>
+                    @if($errors->has('failed'))
+                    {{-- <div class="alert alert-danger">
+                        {{ $errors->first('failed') }}
+                    </div> --}}
+                    @endif
 
                     <div class="card card-primary">
                     <div class="card-header"><h4>Login</h4></div>

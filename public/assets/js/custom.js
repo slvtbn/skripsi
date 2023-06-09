@@ -12,9 +12,9 @@
 // } = require("lodash");
 
 // modal confirmation
-function submitDelete(id) {
-    console.log(document.getElementById('formDelete-' + id).submit());
-}
+// function submitDelete(id) {
+//     console.log(document.getElementById('formDelete-' + id).submit());
+// 
 
 // mereset modal
 $('#modalAjax').on('hidden.bs.modal', function () {
@@ -101,6 +101,50 @@ $('#save-aspek').on('click', function (e) {
 
         })
     }
+})
+
+// delete aspek
+$(document).on('click', '.delete-aspek', function (e) {
+    e.preventDefault();
+
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    var id = $(this).data('id');
+    Swal.fire({
+        title: 'Konfirmasi',
+        text: 'Anda yakin ingin menghapus data ini ? ',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Hapus',
+        cancelButtonText: 'Tidak',
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                url: '/aspek/delete/' + id,
+                type: 'DELETE',
+                success: function (response) {
+                    Swal.fire(
+                        'Deleted',
+                        'Data Berhasil Dihapus',
+                        'success',
+                    ).then(() => {
+                        location.reload();
+                    })
+                },
+                error: function (e) {
+                    Swal.fire(
+                        'Error',
+                        'Terjadi kesalahan saat menghapus data',
+                        'error',
+                    )
+                }
+            })
+        }
+    })
 })
 
 // Edit Krtieria 
@@ -205,6 +249,50 @@ $('#save-kriteria').on('click', function (e) {
             }
         })
     }
+})
+
+// delete kriteria
+$(document).on('click', '.delete-kriteria', function (e) {
+    e.preventDefault();
+
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    var id = $(this).data('id');
+    Swal.fire({
+        title: 'Konfirmasi',
+        text: 'Anda yakin ingin menghapus data ini ? ',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Hapus',
+        cancelButtonText: 'Tidak',
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                url: '/kriteria/delete/' + id,
+                type: 'DELETE',
+                success: function (response) {
+                    Swal.fire(
+                        'Deleted',
+                        'Data Berhasil Dihapus',
+                        'success',
+                    ).then(() => {
+                        location.reload();
+                    })
+                },
+                error: function (e) {
+                    Swal.fire(
+                        'Error',
+                        'Terjadi kesalahan saat menghapus data',
+                        'error',
+                    )
+                }
+            })
+        }
+    })
 })
 
 // Edit calon paskibraka
@@ -320,54 +408,105 @@ $('#save-calon-paskib').on('click', function (e) {
     }
 })
 
+// delete calon paskibra
+$(document).on('click', '.delete-calon-paskib', function (e) {
+    e.preventDefault();
+
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    var id = $(this).data('id');
+    Swal.fire({
+        title: 'Konfirmasi',
+        text: 'Anda yakin ingin menghapus data ini ? ',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Hapus',
+        cancelButtonText: 'Tidak',
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                url: '/calon-paskib/delete/' + id,
+                type: 'DELETE',
+                success: function (response) {
+                    Swal.fire(
+                        'Deleted',
+                        'Data Berhasil Dihapus',
+                        'success',
+                    ).then(() => {
+                        location.reload();
+                    })
+                },
+                error: function (e) {
+                    Swal.fire(
+                        'Error',
+                        'Terjadi kesalahan saat menghapus data',
+                        'error',
+                    )
+                }
+            })
+        }
+    })
+})
+
 // pilih periode untuk tampilkan data
-// $('body').on('change', '#periode-tampil', function (e) {
-//     e.preventDefault();
+$('#periode-tampil').on('change', function (e) {
+    e.preventDefault();
 
-//     $.ajaxSetup({
-//         headers: {
-//             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-//         }
-//     });
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
 
-//     var value = $(this).find(":selected").val();
-//     console.log(value);
+    var value = $(this).find(":selected").val();
+    console.log(value);
 
-//     $.ajax({
-//         type: 'GET',
-//         url: '/calon-paskib/periode-tampil',
-//         data: {
-//             'periode': value
-//         },
-//         success: function (response) {
-//             console.log(response.data);
-//             $.each(response.data, function (value, index) {
-//                 $('tbody').append(`
-//                     <tr>
-//                         <td>{{ $no++ }}</td>
-//                         <td>${index.name}</td>
-//                         <td>${index.alamat}</td>
-//                         <td>${index.asal_sekolah}</td>
-//                         <td>${index.jenis_kelamin}</td>
-//                         <td>${index.tgl_lahir}</td>
-//                         <td>${index.no_telp}</td>
-//                         <td>
-//                             <form action="{{ route('delete-calon-paskib', $data->id) }}" method="post" id="formDelete-{{ $data->id }}">
-//                                 <a href="javascript:void(0)" id="edit-calon-paskib" data-toggle="modal" data-target="#modalAjax" data-id="{{ $data->id }}" class="btn btn-secondary btn-action mr-1" data-toggle="tooltip" title="" data-original-title="{{ $data->id }}"><i class="fas fa-pencil-alt pt-1"></i></a>
-//                                 <a class="btn btn-danger btn-action" data-toggle="tooltip" title="" data-confirm="Anda Yakin Ingin Menghapus Data?" data-confirm-yes="submitDelete({{ $data->id }})" data-original-title="Delete"><i class="fas fa-trash pt-1"></i>
-//                                 </a>
-//                             </form>
-//                         </td>
-//                     </tr>
-//                 `)
-//             });
-//         },
-//         error: function (data) {
-//             var errors = $.parseJSON(data.responseText);
-//             console.log(data);
-//         }
-//     })
-// })
+    $.ajax({
+        type: 'GET',
+        url: '/calon-paskib/periode-tampil',
+        data: {
+            'periode': value
+        },
+        success: function (response) {
+            console.log(response.data);
+            var data = response.data;
+
+            // menghapus konten sebelumnya
+            $('#data-table tbody').empty();
+
+            // memasukkan data ke dalam table 
+            var no = 1;
+            data.forEach(function (data) {
+                var row = `
+                    <tr>
+                        <td> ${no++} </td>
+                        <td> ${data.name} </td>
+                        <td> ${data.alamat} </td>
+                        <td> ${data.asal_sekolah} </td>
+                        <td> ${data.jenis_kelamin} </td>
+                        <td> ${data.tgl_lahir} </td>
+                        <td> ${data.no_telp} </td>
+                        <td>
+                            <a href="javascript:void(0)" id="edit-calon-paskib" data-toggle="modal" data-target="#modalAjax" data-id="${data.id}" class="btn btn-secondary btn-action mr-1" data-toggle="tooltip"><i class="fas fa-pencil-alt pt-1"></i></a>
+                            <a href="javascript:void(0)" class="btn btn-danger btn-action delete-calon-paskib" data-id="${data.id}"><i class="fas fa-trash pt-1"></i>
+                            </a>
+                        </td>
+                    </tr>
+                `;
+
+                $('#data-table tbody').append(row);
+            })
+        },
+        error: function (data) {
+            var errors = $.parseJSON(data.responseText);
+            console.log(data);
+        }
+    })
+})
 
 // Edit nilai
 $(document).on('click', '#edit-nilai', function (e) {
@@ -465,6 +604,50 @@ $('#save-nilai').on('click', function (e) {
             }
         })
     }
+})
+
+// delete nilai
+$(document).on('click', '.delete-nilai', function (e) {
+    e.preventDefault();
+
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    var id = $(this).data('id');
+    Swal.fire({
+        title: 'Konfirmasi',
+        text: 'Anda yakin ingin menghapus data ini ? ',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Hapus',
+        cancelButtonText: 'Tidak',
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                url: '/nilai/delete/' + id,
+                type: 'DELETE',
+                success: function (response) {
+                    Swal.fire(
+                        'Deleted',
+                        'Data Berhasil Dihapus',
+                        'success',
+                    ).then(() => {
+                        location.reload();
+                    })
+                },
+                error: function (e) {
+                    Swal.fire(
+                        'Error',
+                        'Terjadi kesalahan saat menghapus data',
+                        'error',
+                    )
+                }
+            })
+        }
+    })
 })
 
 // detail nilai

@@ -34,13 +34,10 @@
                     <td>{{ $kriteria->nilai_target }}</td>
                     <td>{{ $kriteria->kelas }}</td>
                     <td>
-                        <form action="{{ route('delete-kriteria', $kriteria->id) }}" method="post" id="formDelete-{{ $kriteria->id }}">
-                            @csrf
-                            @method('delete')
-                            <a href="javascript:void(0)" id="edit-kriteria" data-toggle="modal" data-target="#modalAjax" data-id="{{ $kriteria->id }}" class="btn btn-secondary btn-action mr-1" data-toggle="tooltip" title="" data-original-title="{{ $kriteria->id }}"><i class="fas fa-pencil-alt pt-1"></i></a>
-                            <a class="btn btn-danger btn-action" data-toggle="tooltip" title="" data-confirm="Anda Yakin Ingin Menghapus Data?" data-confirm-yes="submitDelete({{ $kriteria->id }})" data-original-title="Delete"><i class="fas fa-trash pt-1"></i>
-                            </a>
-                        </form>
+                        <a href="javascript:void(0)" id="edit-kriteria" data-toggle="modal" data-target="#modalAjax" data-id="{{ $kriteria->id }}" class="btn btn-secondary btn-action mr-1" data-toggle="tooltip" title="" data-original-title="{{ $kriteria->id }}"><i class="fas fa-pencil-alt pt-1"></i></a>
+                        
+                        <a href="javascript:void(0)" class="btn btn-danger btn-action delete-kriteria" data-toggle="modal" data-id="{{ $kriteria->id }}" data-toggle="tooltip"><i class="fas fa-trash pt-1"></i>
+                        </a>
                     </td>
                 </tr>
                 @endforeach

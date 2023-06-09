@@ -19,7 +19,13 @@ class CalonPaskibraController extends Controller
 
     public function calonPaskibShowPeriode(Request $request) {
         $data_paskib = CalonPaskibra::where('periode', $request->periode)->get();
-        return view('layouts.paskibraka.calon_paskib.show', compact('data_paskib'));
+        // return view('layouts.paskibraka.calon_paskib.show', compact('data_paskib'));
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Data Berhasil di Tampilkan',
+            'data' => $data_paskib
+        ]);
     }
 
     public function calonPaskibAdd(CalonPaskibrakaRequest $request) {
@@ -60,7 +66,10 @@ class CalonPaskibraController extends Controller
     public function calonPaskibDelete($id) {
         $data = CalonPaskibra::where('id', $id)->delete();
 
-        Alert::success('Success','Berhasil Menghapus Data');
-        return redirect()->route('show-calon-paskib');
+        return response()->json([
+            'success' => true,
+            'message' => 'Data Berhasil di Hapus',
+            'data' => $data
+        ]);
     }
 }

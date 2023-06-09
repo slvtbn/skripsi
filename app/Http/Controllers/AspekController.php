@@ -46,7 +46,10 @@ class AspekController extends Controller
     public function aspekDelete($id) {
         $data = Aspek::where('id', $id)->delete();
 
-        Alert::success('Berhasil Menghapus Data');
-        return redirect()->route('show-aspek');
+        return response()->json([
+            'success' => true,
+            'message' => 'Data Berhasil di Hapus',
+            'data' => $data
+        ]);
     }
 }
