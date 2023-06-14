@@ -54,5 +54,8 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
     Route::delete('/nilai/delete/{id}', [NilaiController::class, 'nilaiDelete'])->name('delete-nilai');
 
     Route::get('/perhitungan', [PerhitunganController::class, 'perhitungan'])->name('perhitungan');
+    Route::get('/hasil-perhitungan', [PerhitunganController::class, 'hasilPerhitunganShow'])->name('show-hasil-perhitungan');
+    Route::get('/hasil-seleksi', [PerhitunganController::class, 'hasilSeleksiShow'])->name('show-hasil-seleksi');
+    Route::get('/print-hasil-seleksi', [PerhitunganController::class, 'hasilSeleksiPrint'])->name('print-hasil-seleksi');
 });
 Route::get('/logout', [UserController::class, 'logout'])->name('logout');

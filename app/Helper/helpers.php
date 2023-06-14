@@ -42,4 +42,20 @@ function bobot3($tinggi, $berat) {
 
     return $bobot;
 }
+
+// fungsi menghitung gap
+function gap($bobot, $target) {
+    $gap = $bobot - $target;
+    return $gap;
+}
+
+// fungsi menghitung bobot nilai gap
+function bobotGap($nilai, $tabelGap) {
+    $nilai = (int) $nilai;
+    foreach($tabelGap as $gap) {
+        if($nilai == $gap->selisih) {
+            return $bobot_gap = $gap->bobot_nilai;
+        }
+    }
+}
 ?>

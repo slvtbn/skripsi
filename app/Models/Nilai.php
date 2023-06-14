@@ -17,7 +17,7 @@ class Nilai extends Model
         return $this->belongsTo(CalonPaskibra::class, 'calon_paskibraka_id', 'id');
     }
 
-    public function bobot_nilai() {
-        return $this->hasOne(BobotNilai::class, 'nilai_id', 'id');
-    }
+    // public function bobot_nilai() {
+    //     return $this->hasOne(BobotNilai::class, 'nilai_id', 'id');
+    // }
 }

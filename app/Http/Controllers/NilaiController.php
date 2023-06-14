@@ -23,67 +23,9 @@ class NilaiController extends Controller
         return view('layouts.paskibraka.nilai.show', compact('data_calon', 'data_nilai'));
     }
 
-    // public function searchName(Request $request) {
-    //     $nama = CalonPaskibra::select('name', 'asal_sekolah', 'jenis_kelamin')->where('name', 'LIKE', '%'. $request->get('query'). '%')->get();
-    //     $nama = CalonPaskibra::where('name', 'LIKE', '%'.request('q').'%')->paginate(10);
-    //     $nama = [];
-
-    //     if($request->has('q')) {
-    //         $search = $request->q;
-    //         $nama = CalonPaskibra::select('id', 'name')
-    //                                 ->where('name', 'LIKE', '%{{$search}}%')
-    //                                 ->get();
-    //     }
-    //     return response()->json($nama);
-    // }
-
     public function nilaiAdd(NilaiRequest $request) {
-        // STEP 1 : memberikan bobot pada tiap nilai kriteria
-        // $skalaTulisPbb = NilaiPbbTulis::all();
-        // $skalaLari = NilaiLari::all();
-        // $skalaPushupSitup = NilaiPushupSitup::all();
-        // $skalaPullup = NilaiPullup::all();
-        // $skalaTb = NilaiTb::all();
-
-        // $bobot_akademik = bobot($skalaTulisPbb, $request->akademik);
-        // $bobot_jalan_ditempat = bobot($skalaTulisPbb, $request->jalan_ditempat);
-        // $bobot_langkah_tegap = bobot($skalaTulisPbb, $request->langkah_tegap);
-        // $bobot_penghormatan = bobot($skalaTulisPbb, $request->penghormatan);
-        // $bobot_belok = bobot($skalaTulisPbb, $request->belok);
-        // $bobot_hadap = bobot($skalaTulisPbb, $request->hadap);
-        // $bobot_lari = bobot($skalaLari, $request->lari);
-        // $bobot_pushup = bobot($skalaPushupSitup, $request->pushup);
-        // $bobot_situp = bobot($skalaPushupSitup, $request->situp);
-        // $bobot_pullup = bobot2($skalaPullup, $request->pullup, $request->jenis_kelamin);
-        // $bobot_tb = bobot2($skalaTb, $request->tb, $request->jenis_kelamin);
-        // $bobot_bb = bobot3($request->tb, $request->bb);
-        
-        // menghitung nilai GAP = Value Attribute - Value Target
-        // memberikan bobot untuk tiap nilai GAP
-        // menghitung CoreFactor
-        // menghitung SecondaryFactor
-        // menghitung nilai akhir
-
         $data = $request->all();
         Nilai::create($data);
-
-        // memasukkan bobot kedalam tabel tb_bobot_nilai
-        // $bobot = BobotNilai::create([
-        //     'nilai_id' => $request->,
-        //     'bobot_akademik' => $bobot_akademik,
-        //     'bobot_jalan_ditempat' => $bobot_jalan_ditempat,
-        //     'bobot_langkah_tegap' => $bobot_langkah_tegap,
-        //     'bobot_penghormatan' => $bobot_penghormatan,
-        //     'bobot_belok' => $bobot_belok,
-        //     'bobot_hadap' => $bobot_hadap,
-        //     'bobot_lari' => $bobot_lari,
-        //     'bobot_pushup' => $bobot_pushup,
-        //     'bobot_situp' => $bobot_situp,
-        //     'bobot_pullup' => $bobot_pullup,
-        //     'bobot_tb' => $bobot_tb,
-        //     'bobot_bb' => $bobot_bb,
-        //     'bobot_bentuk_kaki' => $request->bentuk_kaki
-        // ]);
 
         return response()->json([
             'success' => true,

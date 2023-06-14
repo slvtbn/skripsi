@@ -31,6 +31,10 @@ class CreateBobotNilaisTable extends Migration
             $table->bigInteger('bobot_bentuk_kaki');
             $table->timestamps();
         });
+
+        Schema::table('tb_bobot_nilai', function (Blueprint $table) {
+            $table->foreign('nilai_id')->references('id')->on('tb_nilai')->onDelete('cascade');
+        });
     }
 
     /**
