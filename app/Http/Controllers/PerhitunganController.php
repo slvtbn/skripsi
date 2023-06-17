@@ -20,6 +20,12 @@ class PerhitunganController extends Controller
 {
     // fungsi untuk menghitung menggunakan metode profile matching
     public function perhitungan() {
+
+        // $updateData = Nilai::whereColumn('updated_at', '!=', 'created_at')->get();
+
+        // dd($updateData);
+
+
         // STEP 1 : menghitung bobot tiap nilai kriteria
         $nilai_seleksi = Nilai::all();
         $skalaTulisPbb = NilaiPbbTulis::all();
@@ -42,25 +48,83 @@ class PerhitunganController extends Controller
             $bobot_tb = bobot2($skalaTb, $nilai->tb, $nilai->calon_paskibraka->jenis_kelamin);
             $bobot_bb = bobot3($nilai->tb, $nilai->bb);
 
-            // dd($nilai->id);
+            if($nilai->created_at != $nilai->updated_at) {
+                $bobotNilai = BobotNilai::where('nilai_id', $nilai->id);
+
+                if($bobotNilai->exists()) {
+                    $bobotNilai->update([
+                        'bobot_akademik' => $bobot_akademik,
+                        'bobot_jalan_ditempat' => $bobot_jalan_ditempat,
+                        'bobot_langkah_tegap' => $bobot_langkah_tegap,
+                        'bobot_penghormatan' => $bobot_penghormatan,
+                        'bobot_belok' => $bobot_belok,
+                        'bobot_hadap' => $bobot_hadap,
+                        'bobot_lari' => $bobot_lari,
+                        'bobot_pushup' => $bobot_pushup,
+                        'bobot_situp' => $bobot_situp,
+                        'bobot_pullup' => $bobot_pullup,
+                        'bobot_tb' => $bobot_tb,
+                        'bobot_bb' => $bobot_bb,
+                        'bobot_bentuk_kaki' => $nilai->bentuk_kaki
+                    ]);
+                }else {
+                    BobotNilai::create([
+                        'nilai_id' => $nilai->id,
+                        'bobot_akademik' => $bobot_akademik,
+                        'bobot_jalan_ditempat' => $bobot_jalan_ditempat,
+                        'bobot_langkah_tegap' => $bobot_langkah_tegap,
+                        'bobot_penghormatan' => $bobot_penghormatan,
+                        'bobot_belok' => $bobot_belok,
+                        'bobot_hadap' => $bobot_hadap,
+                        'bobot_lari' => $bobot_lari,
+                        'bobot_pushup' => $bobot_pushup,
+                        'bobot_situp' => $bobot_situp,
+                        'bobot_pullup' => $bobot_pullup,
+                        'bobot_tb' => $bobot_tb,
+                        'bobot_bb' => $bobot_bb,
+                        'bobot_bentuk_kaki' => $nilai->bentuk_kaki
+                    ]);
+                }
+            }else {
+                $bobot = BobotNilai::firstOrCreate(
+                    [
+                        'nilai_id' => $nilai->id
+                    ],
+                    [
+                    'nilai_id' => $nilai->id,
+                    'bobot_akademik' => $bobot_akademik,
+                    'bobot_jalan_ditempat' => $bobot_jalan_ditempat,
+                    'bobot_langkah_tegap' => $bobot_langkah_tegap,
+                    'bobot_penghormatan' => $bobot_penghormatan,
+                    'bobot_belok' => $bobot_belok,
+                    'bobot_hadap' => $bobot_hadap,
+                    'bobot_lari' => $bobot_lari,
+                    'bobot_pushup' => $bobot_pushup,
+                    'bobot_situp' => $bobot_situp,
+                    'bobot_pullup' => $bobot_pullup,
+                    'bobot_tb' => $bobot_tb,
+                    'bobot_bb' => $bobot_bb,
+                    'bobot_bentuk_kaki' => $nilai->bentuk_kaki
+                ]);
+            }
 
             // memasukkan bobot nilai pada table tb_bobot_nilai
-            $bobot = BobotNilai::create([
-                'nilai_id' => $nilai->id,
-                'bobot_akademik' => $bobot_akademik,
-                'bobot_jalan_ditempat' => $bobot_jalan_ditempat,
-                'bobot_langkah_tegap' => $bobot_langkah_tegap,
-                'bobot_penghormatan' => $bobot_penghormatan,
-                'bobot_belok' => $bobot_belok,
-                'bobot_hadap' => $bobot_hadap,
-                'bobot_lari' => $bobot_lari,
-                'bobot_pushup' => $bobot_pushup,
-                'bobot_situp' => $bobot_situp,
-                'bobot_pullup' => $bobot_pullup,
-                'bobot_tb' => $bobot_tb,
-                'bobot_bb' => $bobot_bb,
-                'bobot_bentuk_kaki' => $nilai->bentuk_kaki
-            ]);
+            // $bobot = BobotNilai::create([
+                // 'nilai_id' => $nilai->id,
+                // 'bobot_akademik' => $bobot_akademik,
+                // 'bobot_jalan_ditempat' => $bobot_jalan_ditempat,
+                // 'bobot_langkah_tegap' => $bobot_langkah_tegap,
+                // 'bobot_penghormatan' => $bobot_penghormatan,
+                // 'bobot_belok' => $bobot_belok,
+                // 'bobot_hadap' => $bobot_hadap,
+                // 'bobot_lari' => $bobot_lari,
+                // 'bobot_pushup' => $bobot_pushup,
+                // 'bobot_situp' => $bobot_situp,
+                // 'bobot_pullup' => $bobot_pullup,
+                // 'bobot_tb' => $bobot_tb,
+                // 'bobot_bb' => $bobot_bb,
+                // 'bobot_bentuk_kaki' => $nilai->bentuk_kaki
+            // ]);
         }
 
         // STEP 2 : Perhitungan nilai GAP = Nilai Attribute - Nilai Target
@@ -86,8 +150,50 @@ class PerhitunganController extends Controller
             $gap_bb = gap($bobot->bobot_bb, $nilai_target[11]);
             $gap_bentuk_kaki = gap($bobot->bobot_bentuk_kaki, $nilai_target[12]);
 
-            // memasukkan nilai gap ke dalam table tb_nilai_gap
-            $bobot = NilaiGap::create([
+            if($bobot->created_at != $bobot->updated_at) {
+                $nilaiGap = NilaiGap::where('bobot_nilai_id', $bobot->id);
+
+                if($nilaiGap->exists()) {
+                    $nilaiGap->update([
+                        'gap_akademik' => $gap_akademik,
+                        'gap_jalan_ditempat' => $gap_jalan_ditempat,
+                        'gap_langkah_tegap' => $gap_langkah_tegap,
+                        'gap_penghormatan' => $gap_penghormatan,
+                        'gap_belok' => $gap_belok,
+                        'gap_hadap' => $gap_hadap,
+                        'gap_lari' => $gap_lari,
+                        'gap_pushup' => $gap_pushup,
+                        'gap_situp' => $gap_situp,
+                        'gap_pullup' => $gap_pullup,
+                        'gap_tb' => $gap_tb,
+                        'gap_bb' => $gap_bb,
+                        'gap_bentuk_kaki' => $gap_bentuk_kaki
+                    ]);
+                }else {
+                    NilaiGap::create([
+                        'bobot_nilai_id' => $bobot->id,
+                        'gap_akademik' => $gap_akademik,
+                        'gap_jalan_ditempat' => $gap_jalan_ditempat,
+                        'gap_langkah_tegap' => $gap_langkah_tegap,
+                        'gap_penghormatan' => $gap_penghormatan,
+                        'gap_belok' => $gap_belok,
+                        'gap_hadap' => $gap_hadap,
+                        'gap_lari' => $gap_lari,
+                        'gap_pushup' => $gap_pushup,
+                        'gap_situp' => $gap_situp,
+                        'gap_pullup' => $gap_pullup,
+                        'gap_tb' => $gap_tb,
+                        'gap_bb' => $gap_bb,
+                        'gap_bentuk_kaki' => $gap_bentuk_kaki
+                    ]);
+                }
+
+            }else {
+                $bobot = NilaiGap::firstOrCreate(
+                [
+                    'bobot_nilai_id' => $bobot->id
+                ],
+                [
                 'bobot_nilai_id' => $bobot->id,
                 'gap_akademik' => $gap_akademik,
                 'gap_jalan_ditempat' => $gap_jalan_ditempat,
@@ -103,6 +209,25 @@ class PerhitunganController extends Controller
                 'gap_bb' => $gap_bb,
                 'gap_bentuk_kaki' => $gap_bentuk_kaki
             ]);
+            }
+
+            // memasukkan nilai gap ke dalam table tb_nilai_gap
+            // $bobot = NilaiGap::create([
+            //     'bobot_nilai_id' => $bobot->id,
+            //     'gap_akademik' => $gap_akademik,
+            //     'gap_jalan_ditempat' => $gap_jalan_ditempat,
+            //     'gap_langkah_tegap' => $gap_langkah_tegap,
+            //     'gap_penghormatan' => $gap_penghormatan,
+            //     'gap_belok' => $gap_belok,
+            //     'gap_hadap' => $gap_hadap,
+            //     'gap_lari' => $gap_lari,
+            //     'gap_pushup' => $gap_pushup,
+            //     'gap_situp' => $gap_situp,
+            //     'gap_pullup' => $gap_pullup,
+            //     'gap_tb' => $gap_tb,
+            //     'gap_bb' => $gap_bb,
+            //     'gap_bentuk_kaki' => $gap_bentuk_kaki
+            // ]);
         }
 
         // // STEP 3 : Perhitungan bobot pada nilai GAP
@@ -131,26 +256,96 @@ class PerhitunganController extends Controller
             // Perhitungan Nilai rata-rata = 60% x CF + 40% x SF
             $nilai_akhir = (0.6 * $cf) + (0.4 * $sf);
 
+            if($gap->created_at != $gap->updated_at) {
+                $bobotGap = BobotGap::where('nilai_gap_id', $gap->id);
+                if($bobotGap->exists()) {
+                    $bobotGap->update([
+                        'bobot_gap_akademik' => $bobot_gap_akademik,
+                        'bobot_gap_jalan_ditempat' => $bobot_gap_jalan_ditempat,
+                        'bobot_gap_langkah_tegap' => $bobot_gap_langkah_tegap,
+                        'bobot_gap_penghormatan' => $bobot_gap_penghormatan,
+                        'bobot_gap_belok' => $bobot_gap_belok,
+                        'bobot_gap_hadap' => $bobot_gap_hadap,
+                        'bobot_gap_lari' => $bobot_gap_lari,
+                        'bobot_gap_pushup' => $bobot_gap_pushup,
+                        'bobot_gap_situp' => $bobot_gap_situp,
+                        'bobot_gap_pullup' => $bobot_gap_pullup,
+                        'bobot_gap_tb' => $bobot_gap_tb,
+                        'bobot_gap_bb' => $bobot_gap_bb,
+                        'bobot_gap_bentuk_kaki' => $bobot_gap_bentuk_kaki,
+                        'cf' => $cf,
+                        'sf' => $sf,
+                        'nilai_akhir' => $nilai_akhir
+                    ]);
+                }else {
+                    BobotGap::create([
+                        'nilai_gap_id' => $gap->id,
+                        'bobot_gap_akademik' => $bobot_gap_akademik,
+                        'bobot_gap_jalan_ditempat' => $bobot_gap_jalan_ditempat,
+                        'bobot_gap_langkah_tegap' => $bobot_gap_langkah_tegap,
+                        'bobot_gap_penghormatan' => $bobot_gap_penghormatan,
+                        'bobot_gap_belok' => $bobot_gap_belok,
+                        'bobot_gap_hadap' => $bobot_gap_hadap,
+                        'bobot_gap_lari' => $bobot_gap_lari,
+                        'bobot_gap_pushup' => $bobot_gap_pushup,
+                        'bobot_gap_situp' => $bobot_gap_situp,
+                        'bobot_gap_pullup' => $bobot_gap_pullup,
+                        'bobot_gap_tb' => $bobot_gap_tb,
+                        'bobot_gap_bb' => $bobot_gap_bb,
+                        'bobot_gap_bentuk_kaki' => $bobot_gap_bentuk_kaki,
+                        'cf' => $cf,
+                        'sf' => $sf,
+                        'nilai_akhir' => $nilai_akhir
+                    ]);
+                }
+            }else {
+                $bobot = BobotGap::firstOrCreate(
+                    [
+                        'nilai_gap_id' => $gap->id
+                    ],
+                    [
+                    'nilai_gap_id' => $gap->id,
+                    'bobot_gap_akademik' => $bobot_gap_akademik,
+                    'bobot_gap_jalan_ditempat' => $bobot_gap_jalan_ditempat,
+                    'bobot_gap_langkah_tegap' => $bobot_gap_langkah_tegap,
+                    'bobot_gap_penghormatan' => $bobot_gap_penghormatan,
+                    'bobot_gap_belok' => $bobot_gap_belok,
+                    'bobot_gap_hadap' => $bobot_gap_hadap,
+                    'bobot_gap_lari' => $bobot_gap_lari,
+                    'bobot_gap_pushup' => $bobot_gap_pushup,
+                    'bobot_gap_situp' => $bobot_gap_situp,
+                    'bobot_gap_pullup' => $bobot_gap_pullup,
+                    'bobot_gap_tb' => $bobot_gap_tb,
+                    'bobot_gap_bb' => $bobot_gap_bb,
+                    'bobot_gap_bentuk_kaki' => $bobot_gap_bentuk_kaki,
+                    'cf' => $cf,
+                    'sf' => $sf,
+                    'nilai_akhir' => $nilai_akhir
+                ]);
+            }
+
             //memasukkan nilai gap ke dalam table tb_nilai_gap
-            $bobot = BobotGap::create([
-                'nilai_gap_id' => $gap->id,
-                'bobot_gap_akademik' => $bobot_gap_akademik,
-                'bobot_gap_jalan_ditempat' => $bobot_gap_jalan_ditempat,
-                'bobot_gap_langkah_tegap' => $bobot_gap_langkah_tegap,
-                'bobot_gap_penghormatan' => $bobot_gap_penghormatan,
-                'bobot_gap_belok' => $bobot_gap_belok,
-                'bobot_gap_hadap' => $bobot_gap_hadap,
-                'bobot_gap_lari' => $bobot_gap_lari,
-                'bobot_gap_pushup' => $bobot_gap_pushup,
-                'bobot_gap_situp' => $bobot_gap_situp,
-                'bobot_gap_pullup' => $bobot_gap_pullup,
-                'bobot_gap_tb' => $bobot_gap_tb,
-                'bobot_gap_bb' => $bobot_gap_bb,
-                'bobot_gap_bentuk_kaki' => $bobot_gap_bentuk_kaki,
-                'cf' => $cf,
-                'sf' => $sf,
-                'nilai_akhir' => $nilai_akhir
-            ]);
+            // $bobot = BobotGap::create([
+            //     'nilai_gap_id' => $gap->id,
+            //     'bobot_gap_akademik' => $bobot_gap_akademik,
+            //     'bobot_gap_jalan_ditempat' => $bobot_gap_jalan_ditempat,
+            //     'bobot_gap_langkah_tegap' => $bobot_gap_langkah_tegap,
+            //     'bobot_gap_penghormatan' => $bobot_gap_penghormatan,
+            //     'bobot_gap_belok' => $bobot_gap_belok,
+            //     'bobot_gap_hadap' => $bobot_gap_hadap,
+            //     'bobot_gap_lari' => $bobot_gap_lari,
+            //     'bobot_gap_pushup' => $bobot_gap_pushup,
+            //     'bobot_gap_situp' => $bobot_gap_situp,
+            //     'bobot_gap_pullup' => $bobot_gap_pullup,
+            //     'bobot_gap_tb' => $bobot_gap_tb,
+            //     'bobot_gap_bb' => $bobot_gap_bb,
+            //     'bobot_gap_bentuk_kaki' => $bobot_gap_bentuk_kaki,
+            //     'cf' => $cf,
+            //     'sf' => $sf,
+            //     'nilai_akhir' => $nilai_akhir
+            // ]);
+
+            
         }
     }
 

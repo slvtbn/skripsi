@@ -3,17 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Nilai;
-use App\Models\NilaiTb;
-use App\Models\Kriteria;
-use App\Models\NilaiLari;
-use App\Models\BobotNilai;
-use App\Models\NilaiPullup;
 use Illuminate\Http\Request;
 use App\Models\CalonPaskibra;
-use App\Models\NilaiPbbTulis;
-use App\Models\NilaiPushupSitup;
 use App\Http\Requests\NilaiRequest;
-use RealRashid\SweetAlert\Facades\Alert;
 
 class NilaiController extends Controller
 {
@@ -35,7 +27,6 @@ class NilaiController extends Controller
     }
 
     public function nilaiEdit($id) {
-        // $data = Nilai::find($id);
         $data = Nilai::with('calon_paskibraka')->where('id', $id)->first();
         return $data;
     }
