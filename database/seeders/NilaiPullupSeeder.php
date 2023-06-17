@@ -15,7 +15,7 @@ class NilaiPullupSeeder extends Seeder
     public function run()
     {
         NilaiPullup::create([
-            'ba_cowo' => 1,
+            'ba_cowo' => 0,
             'bb_cowo' => 4,
             'ba_cewe' => 1,
             'bb_cewe' => 15,
@@ -41,7 +41,7 @@ class NilaiPullupSeeder extends Seeder
         NilaiPullup::create([
             'ba_cowo' => 13,
             'bb_cowo' => 17,
-            'ba_cewe' => 45,
+            'ba_cewe' => 46,
             'bb_cewe' => 59,
             'bobot' => 4,
             'status' => 'Baik'

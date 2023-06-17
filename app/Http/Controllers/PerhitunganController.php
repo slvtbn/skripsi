@@ -20,12 +20,6 @@ class PerhitunganController extends Controller
 {
     // fungsi untuk menghitung menggunakan metode profile matching
     public function perhitungan() {
-
-        // $updateData = Nilai::whereColumn('updated_at', '!=', 'created_at')->get();
-
-        // dd($updateData);
-
-
         // STEP 1 : menghitung bobot tiap nilai kriteria
         $nilai_seleksi = Nilai::all();
         $skalaTulisPbb = NilaiPbbTulis::all();
@@ -48,9 +42,11 @@ class PerhitunganController extends Controller
             $bobot_tb = bobot2($skalaTb, $nilai->tb, $nilai->calon_paskibraka->jenis_kelamin);
             $bobot_bb = bobot3($nilai->tb, $nilai->bb);
 
+            // jika ada data yang diupdate 
             if($nilai->created_at != $nilai->updated_at) {
                 $bobotNilai = BobotNilai::where('nilai_id', $nilai->id);
 
+                // jika data yg diupdate ada pada table 
                 if($bobotNilai->exists()) {
                     $bobotNilai->update([
                         'bobot_akademik' => $bobot_akademik,
@@ -67,7 +63,7 @@ class PerhitunganController extends Controller
                         'bobot_bb' => $bobot_bb,
                         'bobot_bentuk_kaki' => $nilai->bentuk_kaki
                     ]);
-                }else {
+                }else { //jika data yg diupdate tidak ada pada table
                     BobotNilai::create([
                         'nilai_id' => $nilai->id,
                         'bobot_akademik' => $bobot_akademik,
@@ -85,7 +81,7 @@ class PerhitunganController extends Controller
                         'bobot_bentuk_kaki' => $nilai->bentuk_kaki
                     ]);
                 }
-            }else {
+            }else { //mengecek apa ada data didalam table jika ada maka tdk di input jika tdk maka akan diinput
                 $bobot = BobotNilai::firstOrCreate(
                     [
                         'nilai_id' => $nilai->id
@@ -345,6 +341,10 @@ class PerhitunganController extends Controller
             //     'nilai_akhir' => $nilai_akhir
             // ]);
 
+            return response()->json([
+                'success' => true,
+                'message' => 'Data Berhasil di Tambahkan'
+            ]);
             
         }
     }

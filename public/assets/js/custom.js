@@ -650,6 +650,38 @@ $(document).on('click', '.delete-nilai', function (e) {
     })
 })
 
+// proses hitung metode profile matching
+$(document).on('click', '#hitung-proses', function (e) {
+    e.preventDefault();
+
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    $.ajax({
+        url: '/perhitungan',
+        type: 'GET',
+        success: function (response) {
+            Swal.fire(
+                'Success',
+                'Proses Perhitungan Berhasil',
+                'success',
+            ).then(() => {
+                location.reload();
+            })
+        },
+        error: function (e) {
+            Swal.fire(
+                'Error',
+                'Terjadi kesalahan saat menghitung data!',
+                'error',
+            )
+        }
+    })
+})
+
 // detail nilai
 $(document).on('click', '#detail-nilai', function (e) {
     e.preventDefault();

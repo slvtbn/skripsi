@@ -15,7 +15,7 @@ class NilaiPushupSitupSeeder extends Seeder
     public function run()
     {
         NilaiPushupSitup::create([
-            'batas_atas' => 1,
+            'batas_atas' => 0,
             'batas_bawah' => 10,
             'bobot' => 1,
             'status' => 'Tidak Memenuhi Syarat'
