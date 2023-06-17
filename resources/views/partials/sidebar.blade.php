@@ -8,10 +8,10 @@
     </div>
     <ul class="sidebar-menu">
       <li class="menu-header">Dashboard</li>
-      <li><a class="nav-link" href="{{ route('show-dashboard') }}"><i class="fa fa-fire"></i> <span>Dashboard</span></a></li>
+      <li><a class="nav-link" href="{{ route('show-dashboard') }}"><i class="fa fa-home"></i> <span>Dashboard</span></a></li>
       <li class="menu-header">Data</li>
       <li class="dropdown">
-        <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-columns"></i><span>Penilaian</span></a>
+        <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fa fa-clipboard"></i><span>Penilaian</span></a>
         <ul class="dropdown-menu">
           <li><a class="nav-link" href="{{ route('show-aspek') }}">Aspek Penilaian</a></li>
           <li><a class="nav-link" href="{{ route('show-kriteria') }}">Kriteria Penilaian</a></li>
@@ -19,25 +19,19 @@
         </ul>
       </li>
       <li class="dropdown">
-        <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-columns"></i><span>Paskibraka</span></a>
+        <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fa fa-user-plus"></i><span>Paskibraka</span></a>
         <ul class="dropdown-menu">
           <li><a class="nav-link" href="{{ route('show-calon-paskib') }}">Calon Paskibra</a></li>
           <li><a class="nav-link" href="{{ route('show-nilai') }}">Nilai</a></li>
         </ul>
       </li>
       <li class="dropdown">
-        <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-columns"></i><span>Perhitungan</span></a>
+        <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fa fa-calculator"></i><span>Perhitungan</span></a>
         <ul class="dropdown-menu">
           <li><a class="nav-link" href="{{ route('show-hasil-perhitungan') }}">Hasil Perhitungan</a></li>
           <li><a class="nav-link" href="{{ route('show-hasil-seleksi') }}">Hasil Seleksi</a></li>
         </ul>
       </li>
-    </ul>
-
-    <div class="mt-4 mb-4 p-3 hide-sidebar-mini">
-      <a href="https://getstisla.com/docs" class="btn btn-primary btn-lg btn-block btn-icon-split">
-        <i class="fas fa-rocket"></i> Documentation
-      </a>
-    </div>        
+    </ul>      
   </aside>
 </div>
