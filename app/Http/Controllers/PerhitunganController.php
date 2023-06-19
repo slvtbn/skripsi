@@ -318,35 +318,12 @@ class PerhitunganController extends Controller
                     'sf' => $sf,
                     'nilai_akhir' => $nilai_akhir
                 ]);
-            }
-
-            //memasukkan nilai gap ke dalam table tb_nilai_gap
-            // $bobot = BobotGap::create([
-            //     'nilai_gap_id' => $gap->id,
-            //     'bobot_gap_akademik' => $bobot_gap_akademik,
-            //     'bobot_gap_jalan_ditempat' => $bobot_gap_jalan_ditempat,
-            //     'bobot_gap_langkah_tegap' => $bobot_gap_langkah_tegap,
-            //     'bobot_gap_penghormatan' => $bobot_gap_penghormatan,
-            //     'bobot_gap_belok' => $bobot_gap_belok,
-            //     'bobot_gap_hadap' => $bobot_gap_hadap,
-            //     'bobot_gap_lari' => $bobot_gap_lari,
-            //     'bobot_gap_pushup' => $bobot_gap_pushup,
-            //     'bobot_gap_situp' => $bobot_gap_situp,
-            //     'bobot_gap_pullup' => $bobot_gap_pullup,
-            //     'bobot_gap_tb' => $bobot_gap_tb,
-            //     'bobot_gap_bb' => $bobot_gap_bb,
-            //     'bobot_gap_bentuk_kaki' => $bobot_gap_bentuk_kaki,
-            //     'cf' => $cf,
-            //     'sf' => $sf,
-            //     'nilai_akhir' => $nilai_akhir
-            // ]);
-
-            return response()->json([
-                'success' => true,
-                'message' => 'Data Berhasil di Tambahkan'
-            ]);
-            
+            } 
         }
+        return response()->json([
+            'success' => true,
+            'message' => 'Data Berhasil di Tambahkan'
+        ]);
     }
 
     // fungsi untuk menampilkan halaman hasil perhitungan
