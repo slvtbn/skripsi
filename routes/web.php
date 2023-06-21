@@ -43,19 +43,23 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
     Route::get('/calon-paskib/edit/{id}', [CalonPaskibraController::class, 'calonPaskibEdit'])->name('edit-calon-paskib');
     Route::put('/calon-paskib/update/{id}', [CalonPaskibraController::class, 'calonPaskibUpdate'])->name('update-calon-paskib');
     Route::delete('/calon-paskib/delete/{id}', [CalonPaskibraController::class, 'calonPaskibDelete'])->name('delete-calon-paskib');
-    Route::get('/calon-paskib/periode-tampil', [CalonPaskibraController::class, 'calonPaskibShowPeriode'])->name('show-periode');
+    Route::get('/calon-paskib/periode-tampil', [CalonPaskibraController::class, 'calonPaskibShowPeriode'])->name('show-periode-capas');
 
     Route::get('/nilai', [NilaiController::class, 'nilaiShow'])->name('show-nilai');
+    Route::get('/nilai/modal-tambah', [NilaiController::class, 'nilaiModalTambah'])->name('nilai-modal-tambah');
     // Route::get('/nilai/search-name', [NilaiController::class, 'searchName'])->name('search-name');
     Route::get('/nilai/detail/{id}', [NilaiController::class, 'nilaiEdit'])->name('detail-nilai');
     Route::post('/nilai/add', [NilaiController::class, 'nilaiAdd'])->name('add-nilai');
     Route::get('/nilai/edit/{id}', [NilaiController::class, 'nilaiEdit'])->name('edit-nilai');
     Route::put('/nilai/update/{id}', [NilaiController::class, 'nilaiUpdate'])->name('update-nilai');
     Route::delete('/nilai/delete/{id}', [NilaiController::class, 'nilaiDelete'])->name('delete-nilai');
+    Route::get('/nilai/periode-tampil', [NilaiController::class, 'nilaiShowPeriode'])->name('show-periode-nilai');
 
     Route::get('/perhitungan', [PerhitunganController::class, 'perhitungan'])->name('perhitungan');
     Route::get('/hasil-perhitungan', [PerhitunganController::class, 'hasilPerhitunganShow'])->name('show-hasil-perhitungan');
+    Route::get('/hasil-perhitungan/periode-tampil', [PerhitunganController::class, 'hasilPerhitunganShowPeriode'])->name('show-periode-hasil');
     Route::get('/hasil-seleksi', [PerhitunganController::class, 'hasilSeleksiShow'])->name('show-hasil-seleksi');
+    Route::get('/hasil-seleksi/periode-tampil', [PerhitunganController::class, 'hasilSeleksiPeriodeShow'])->name('show-periode-rangking');
     Route::get('/print-hasil-seleksi', [PerhitunganController::class, 'hasilSeleksiPrint'])->name('print-hasil-seleksi');
 });
 Route::get('/logout', [UserController::class, 'logout'])->name('logout');

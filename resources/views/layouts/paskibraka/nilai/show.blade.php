@@ -3,13 +3,29 @@
 @section('title', 'Nilai')
 
 @section('content')
-    <a href="#" data-toggle="modal" data-target="#modalAjax" class="btn btn-primary btn-action mb-3 mr-3" style="width: 10%" data-toggle="tooltip" title="" data-original-title="Tambah"><i class="fas fa-plus pt-1"></i></a>
+    <a href="#" id="btn-tambah-nilai" data-toggle="modal" data-target="#modalAjax" class="btn btn-primary btn-action mr-3" style="width: 10%" data-toggle="tooltip" title="" data-original-title="Tambah"><i class="fas fa-plus pt-1"></i></a>
     {{-- <a href="{{ route('perhitungan') }}" class="btn btn-primary btn-action mb-3" style="width: 20%">Hitung Proses</a> --}}
-    <a id="hitung-proses" class="btn btn-primary btn-action mb-3" style="width: 20%">Hitung Proses</a>
+    <button id="hitung-proses" class="btn btn-primary btn-action mr-3" style="width: 20%" disabled>Hitung Proses</button>
+    <a href="" class="btn btn-primary btn-action" style="width: 10%"><i class="fas fa-print pt-1 pr-2"></i>Print</a>
+
+    {{-- combo pilih periode --}}
+    <div class="form-group ml-auto" style="width: 20%">
+        <select class="form-control" id="periode-tampil-nilai" name="periode">
+            <option value="" disabled selected>-- Pilih Tahun Periode --</option>
+            @php
+                $tahun_now = \Carbon\Carbon::now()->format('Y');
+                $tahun_last = \Carbon\Carbon::now()->format('Y')-5;
+            @endphp
+
+            @for($i = $tahun_now; $i >= $tahun_last; $i--)
+                <option value="{{ $i }}">{{ $i }}</option>
+            @endfor
+        </select>
+    </div>
     <div class="card">
         <div class="card-body p-0">
             <div class="table-responsive">
-                <table class="table table-striped mb-0">
+                <table class="table table-striped mb-0" id="data-table-nilai">
                     <thead>
                     <tr>
                         <th>No</th>
@@ -64,11 +80,11 @@
                     <div class="form-group">
                         <label style="font-size:15px" for="nama_lengkap">Nama Lengkap</label>
                         {{-- <input type="text" class="form-control" value="" name="nama_lengkap" id="search_name" autocomplete="off" > --}}
-                       <select id="cari-nama" class="form-control" name="calon_paskibraka_id" style="width: 100%;">
+                       <select id="cari-nama" class="form-control" name="calon_paskibraka_id" style="width: 100%;" disabled>
                             <option value="" disabled selected>-- Pilih Nama Calon Paskibra --</option>
-                            @foreach ($data_calon as $data)
+                            {{-- @foreach ($data_calon as $data)
                                 <option value={{ $data->id }}>{{ $data->name }}</option>
-                            @endforeach
+                            @endforeach --}}
                        </select>
                        <p class="error" id="calon_paskibraka_id-error" style="color:red; margin: 0; font-size:12px"></p>
                     </div>
@@ -135,7 +151,7 @@
                     <div class="form-group">
                         <label style="font-size:15px" for="bentuk_kaki">Bentuk Kaki</label>
                         <select class="form-control" id="bentuk_kaki" name="bentuk_kaki">
-                            <option value="">-- Pilih Bentuk Kaki --</option>
+                            <option value="" disabled selected>-- Pilih Bentuk Kaki --</option>
                             <option value="5">Normal</option>
                             <option value="3">X / O <= 5cm</option>
                             <option value="1">X / 0 > 5cm</option>

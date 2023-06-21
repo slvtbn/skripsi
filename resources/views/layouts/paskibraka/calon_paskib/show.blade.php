@@ -4,13 +4,14 @@
 
 @section('content')
 
-    <a href="#" data-toggle="modal" data-target="#modalAjax" class="btn btn-primary btn-action mb-3" style="width: 10%" data-toggle="tooltip" title="" data-original-title="Tambah"><i class="fas fa-plus pt-1"></i></a>
+    <a href="#" data-toggle="modal" data-target="#modalAjax" class="btn btn-primary btn-action mr-3" style="width: 10%" data-toggle="tooltip" title="" data-original-title="Tambah"><i class="fas fa-plus pt-1"></i></a>
+    <a href="" class="btn btn-primary btn-action mr-3" style="width: 10%;"><i class="fas fa-print pt-1 pr-2"></i>Print</a>
     
     {{-- <form id="form-periode" action="{{ route('show-periode') }}" method="get"> --}}
-        @csrf
+        {{-- @csrf --}}
         <div class="form-group ml-auto" style="width: 20%">
-            <select class="form-control" id="periode-tampil" name="periode">
-                <option value="">-- Pilih Tahun Periode --</option>
+            <select class="form-control" id="periode-tampil-capas" name="periode">
+                <option value="" disabled selected>-- Pilih Tahun Periode --</option>
                 @php
                     $tahun_now = \Carbon\Carbon::now()->format('Y');
                     $tahun_last = \Carbon\Carbon::now()->format('Y')-5;
@@ -22,7 +23,6 @@
             </select>
         </div>
     {{-- </form> --}}
-    <div class="card">
         <div class="card-body p-0">
             <div class="table-responsive">
             <table class="table table-striped mb-0" id="data-table">
@@ -86,7 +86,7 @@
                         <div class="form-group">
                             <label style="font-size:15px" for="periode">Periode Penerimaan</label>
                             <select class="form-control" id="periode">
-                                <option value="">-- Pilih Tahun Periode --</option>
+                                <option value="" disabled selected>-- Pilih Tahun Periode --</option>
                                 @php
                                     $tahun_now = \Carbon\Carbon::now()->format('Y');
                                     $tahun_last = \Carbon\Carbon::now()->format('Y')-5;
@@ -116,7 +116,7 @@
                         <div class="form-group">
                             <label style="font-size:15px" for="jenis_kelamin">Jenis Kelamin</label>
                             <select class="form-control" id="jenis_kelamin">
-                                <option value="">-- Pilih Kelas --</option>
+                                <option value="" disabled selected>-- Pilih Jenis Kelamin --</option>
                                 <option value="Laki-laki">Laki-laki</option>
                                 <option value="Perempuan">Perempuan</option>
                             </select>

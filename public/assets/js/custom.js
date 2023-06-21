@@ -20,7 +20,12 @@
 $('#modalAjax').on('hidden.bs.modal', function () {
     $('input').val('');
     $('.error').html('');
-    $('select').val('');
+    // $('select').val('');
+    $('#aspek_id').val('');
+    $('#periode').val('');
+    $('#jenis_kelamin').val('');
+    $('#cari-nama').val('');
+    $('#bentuk-kaki').val('');
 })
 
 // edit aspek
@@ -453,7 +458,7 @@ $(document).on('click', '.delete-calon-paskib', function (e) {
 })
 
 // pilih periode untuk tampilkan data
-$('#periode-tampil').on('change', function (e) {
+$('#periode-tampil-capas').on('change', function (e) {
     e.preventDefault();
 
     $.ajaxSetup({
@@ -538,6 +543,40 @@ $(document).on('click', '#edit-nilai', function (e) {
         $('#bentuk_kaki').val(data.bentuk_kaki);
         $('#save-nilai').val('edit-user');
         $('#modal-title').html('Edit Nilai');
+    })
+})
+
+// button tambah nilai
+$(document).on('click', '#btn-tambah-nilai', function (e) {
+    // mengosongkan select option
+    $('#cari-nama').empty();
+
+    // Menambahkan placeholder kembali setelah mengosongkan
+    $('#cari-nama').append('<option value="" selected disabled>-- Masukkan Nama --</option>');
+
+    var value = $('#periode-tampil-nilai').find(":selected").val();
+    console.log(value);
+
+    // mengambil data dari database menggunakan ajax
+    $.ajax({
+        url: '/nilai/modal-tambah',
+        type: 'GET',
+        data: {
+            'periode': value
+        },
+        success: function (response) {
+            console.log(response.data);
+            var data = response.data;
+
+            data.forEach(function (data) {
+                $('#cari-nama').append('<option value="' + data.id + '">' + data.name + '</option>');
+            })
+
+        },
+        error: function (data) {
+            var errors = $.parseJSON(data.responseText);
+            console.log(data);
+        }
     })
 })
 
@@ -650,38 +689,6 @@ $(document).on('click', '.delete-nilai', function (e) {
     })
 })
 
-// proses hitung metode profile matching
-$(document).on('click', '#hitung-proses', function (e) {
-    e.preventDefault();
-
-    $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }
-    });
-
-    $.ajax({
-        url: '/perhitungan',
-        type: 'GET',
-        success: function (response) {
-            Swal.fire(
-                'Success',
-                'Proses Perhitungan Berhasil',
-                'success',
-            ).then(() => {
-                location.reload();
-            })
-        },
-        error: function (e) {
-            Swal.fire(
-                'Error',
-                'Terjadi kesalahan saat menghitung data!',
-                'error',
-            )
-        }
-    })
-})
-
 // detail nilai
 $(document).on('click', '#detail-nilai', function (e) {
     e.preventDefault();
@@ -716,4 +723,274 @@ $(document).on('click', '#detail-nilai', function (e) {
         $('#nilai_bentuk_kaki').html(bentuk_kaki);
     })
 
+})
+
+// periode tampil nilai
+$('#periode-tampil-nilai').on('change', function (e) {
+    e.preventDefault();
+
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    var btn_hitung = $('#hitung-proses').removeAttr('disabled');
+    var select_nama = $('#cari-nama').removeAttr('disabled');
+
+    var value = $(this).find(":selected").val();
+    console.log(value);
+
+    $.ajax({
+        type: 'GET',
+        url: '/nilai/periode-tampil',
+        data: {
+            'periode': value
+        },
+        success: function (response) {
+            console.log(response.data);
+            var data = response.data;
+
+            // menghapus konten sebelumnya
+            $('#data-table-nilai tbody').empty();
+
+            // memasukkan data ke dalam table 
+            var no = 1;
+            data.forEach(function (data) {
+                var row = `
+                    <tr>
+                        <td> ${no++} </td>
+                        <td> ${data['calon_paskibraka']['name']} </td>
+                        <td> ${data['calon_paskibraka']['asal_sekolah']} </td>
+                        <td> ${data['calon_paskibraka']['jenis_kelamin']} </td>
+                        <td>
+                            <a href="javascript:void(0)" id="edit-nilai" data-toggle="modal" data-target="#modalAjax" data-id="${data.id}" class="btn btn-secondary btn-action mr-1" data-toggle="tooltip"><i class="fas fa-pencil-alt pt-1"></i></a>
+                            <a href="javascript:void(0)" class="btn btn-danger btn-action delete-nilai" data-id="${data.id}"><i class="fas fa-trash pt-1"></i>
+                            </a>
+                            <a class="btn btn-primary btn-action" id="detail-nilai" data-toggle="modal" data-target="#modalDetail" data-id="${data.id}" title=""><i class="fas fa-info pt-1"></i></a>
+                        </td>
+                    </tr>
+                `;
+
+                $('#data-table-nilai tbody').append(row);
+            })
+        },
+        error: function (data) {
+            var errors = $.parseJSON(data.responseText);
+            console.log(data);
+        }
+    })
+})
+
+// proses hitung metode profile matching
+$(document).on('click', '#hitung-proses', function (e) {
+    e.preventDefault();
+
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    var value = $('#periode-tampil-nilai').find(":selected").val();
+    console.log(value);
+
+    $.ajax({
+        url: '/perhitungan',
+        type: 'GET',
+        data: {
+            'periode': value
+        },
+        success: function (response) {
+            console.log(response.data);
+            Swal.fire(
+                'Success',
+                'Proses Perhitungan Berhasil',
+                'success',
+            ).then(() => {
+                location.reload();
+            })
+        },
+        error: function (e) {
+            Swal.fire(
+                'Error',
+                'Terjadi kesalahan saat menghitung data!',
+                'error',
+            )
+        }
+    })
+})
+
+// tampil periode hasil perhitungan
+$('#periode-tampil-hasil').on('change', function (e) {
+    e.preventDefault();
+
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    var value = $(this).find(":selected").val();
+    console.log(value);
+
+    $.ajax({
+        type: 'GET',
+        url: '/hasil-perhitungan/periode-tampil',
+        data: {
+            'periode': value
+        },
+        success: function (response) {
+            console.log(response.data);
+            var data = response.data;
+
+            // menghapus konten sebelumnya
+            $('#table-bobot-nilai tbody').empty();
+            $('#table-nilai-gap tbody').empty();
+            $('#table-cf tbody').empty();
+            $('#table-sf tbody').empty();
+            $('#table-nilai-akhir tbody').empty();
+
+            // memasukkan data ke dalam table
+            var no = 1;
+            data.forEach(function (data) {
+                no + 1;
+                var row_bobot_nilai = `
+                    <tr>
+                        <td> ${ no }</td>
+                        <td> ${ data['nilai_gap']['bobot_nilai']['nilai']['calon_paskibraka']['name'] }</td>
+                        <td> ${ data['nilai_gap']['bobot_nilai']['bobot_akademik'] }</td>
+                        <td> ${ data['nilai_gap']['bobot_nilai']['bobot_jalan_ditempat'] }</td>
+                        <td> ${ data['nilai_gap']['bobot_nilai']['bobot_langkah_tegap'] }</td>
+                        <td> ${ data['nilai_gap']['bobot_nilai']['bobot_penghormatan'] }</td>
+                        <td> ${ data['nilai_gap']['bobot_nilai']['bobot_belok'] }</td>
+                        <td> ${ data['nilai_gap']['bobot_nilai']['bobot_hadap'] }</td>
+                        <td> ${ data['nilai_gap']['bobot_nilai']['bobot_lari'] }</td>
+                        <td> ${ data['nilai_gap']['bobot_nilai']['bobot_pushup'] }</td>
+                        <td> ${ data['nilai_gap']['bobot_nilai']['bobot_situp'] }</td>
+                        <td> ${ data['nilai_gap']['bobot_nilai']['bobot_pullup'] }</td>
+                        <td> ${ data['nilai_gap']['bobot_nilai']['bobot_tb'] }</td>
+                        <td> ${ data['nilai_gap']['bobot_nilai']['bobot_bb'] }</td>
+                        <td> ${ data['nilai_gap']['bobot_nilai']['bobot_bentuk_kaki'] }</td>
+                    </tr>
+                `;
+
+                var row_nilai_gap = `
+                    <tr>
+                        <td> ${ no }</td>
+                        <td> ${ data['nilai_gap']['bobot_nilai']['nilai']['calon_paskibraka']['name'] }</td>
+                        <td> ${ data['nilai_gap']['gap_akademik'] }</td>
+                        <td> ${ data['nilai_gap']['gap_jalan_ditempat'] }</td>
+                        <td> ${ data['nilai_gap']['gap_langkah_tegap'] }</td>
+                        <td> ${ data['nilai_gap']['gap_penghormatan'] }</td>
+                        <td> ${ data['nilai_gap']['gap_belok'] }</td>
+                        <td> ${ data['nilai_gap']['gap_hadap'] }</td>
+                        <td> ${ data['nilai_gap']['gap_lari'] }</td>
+                        <td> ${ data['nilai_gap']['gap_pushup'] }</td>
+                        <td> ${ data['nilai_gap']['gap_situp'] }</td>
+                        <td> ${ data['nilai_gap']['gap_pullup'] }</td>
+                        <td> ${ data['nilai_gap']['gap_tb'] }</td>
+                        <td> ${ data['nilai_gap']['gap_bb'] }</td>
+                        <td> ${ data['nilai_gap']['gap_bentuk_kaki'] }</td>
+                    </tr>
+                `;
+
+                var row_cf = `
+                    <tr>
+                        <td> ${ no }</td>
+                        <td> ${ data['nilai_gap']['bobot_nilai']['nilai']['calon_paskibraka']['name'] }</td>
+                        <td> ${ data['bobot_gap_jalan_ditempat']  }</td>
+                        <td> ${ data['bobot_gap_langkah_tegap']  }</td>
+                        <td> ${ data['bobot_gap_penghormatan']  }</td>
+                        <td> ${ data['bobot_gap_belok']  }</td>
+                        <td> ${ data['bobot_gap_lari']  }</td>
+                        <td> ${ data['bobot_gap_pushup']  }</td>
+                        <td> ${ data['bobot_gap_tb']  }</td>
+                        <td> ${ data['cf']  }</td>
+                    </tr>
+                `;
+
+                var row_sf = `
+                    <tr>
+                        <td> ${ no }</td>
+                        <td> ${ data['nilai_gap']['bobot_nilai']['nilai']['calon_paskibraka']['name'] }</td>
+                        <td> ${ data['bobot_gap_akademik']  }</td>
+                        <td> ${ data['bobot_gap_hadap']  }</td>
+                        <td> ${ data['bobot_gap_situp']  }</td>
+                        <td> ${ data['bobot_gap_pullup']  }</td>
+                        <td> ${ data['bobot_gap_bb']  }</td>
+                        <td> ${ data['bobot_gap_bentuk_kaki']  }</td>
+                        <td> ${ data['sf']  }</td>
+                    </tr>
+                `;
+
+                var row_nilai_akhir = `
+                    <tr>
+                        <td> ${ no++ }</td>
+                        <td> ${ data['nilai_gap']['bobot_nilai']['nilai']['calon_paskibraka']['name'] }</td>
+                        <td> ${ data['nilai_akhir']  }</td>
+                    </tr>
+                `
+
+                $('#table-bobot-nilai tbody').append(row_bobot_nilai);
+                $('#table-nilai-gap tbody').append(row_nilai_gap);
+                $('#table-cf tbody').append(row_cf);
+                $('#table-sf tbody').append(row_sf);
+                $('#table-nilai-akhir tbody').append(row_nilai_akhir);
+            })
+        },
+        error: function (data) {
+            var errors = $.parseJSON(data.responseText);
+            console.log(errors);
+        }
+    })
+})
+
+// tampil periode hasil rangking
+$('#periode-tampil-hasil-rangking').on('change', function (e) {
+    e.preventDefault();
+
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    var value = $(this).find(":selected").val();
+    console.log(value);
+
+    $.ajax({
+        type: 'GET',
+        url: '/hasil-seleksi/periode-tampil',
+        data: {
+            'periode': value
+        },
+        success: function (response) {
+            console.log(response.data);
+            var data = response.data;
+
+            // menghapus content sebelumnya
+            $('#table-hasil-perangkingan tbody').empty();
+
+            // memasukkan data kedalam table
+            var no = 1;
+            data.forEach(function (data, key) {
+                var row = `
+                    <tr>
+                        <td>${ no++ }</td>
+                        <td>${ data['nilai_gap']['bobot_nilai']['nilai']['calon_paskibraka']['name'] }</td>
+                        <td>${ data['nilai_gap']['bobot_nilai']['nilai']['calon_paskibraka']['jenis_kelamin'] }</td>
+                        <td>${ data['nilai_gap']['bobot_nilai']['nilai']['calon_paskibraka']['asal_sekolah'] }</td>
+                        <td>${ key+1 }</td>
+                    </tr>   
+                `
+
+                $('#table-hasil-perangkingan tbody').append(row);
+            })
+        },
+        error: function (data) {
+            var errors = $.parseJSON(data.responseText);
+            console.log(errors);
+        }
+    })
 })

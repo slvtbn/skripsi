@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
+use Dompdf\Dompdf;
 use App\Models\Nilai;
 use App\Models\NilaiTb;
 use App\Models\BobotGap;
@@ -14,14 +16,19 @@ use App\Models\NilaiPullup;
 use Illuminate\Http\Request;
 use App\Models\NilaiPbbTulis;
 use App\Models\NilaiPushupSitup;
-use Dompdf\Dompdf;
 
 class PerhitunganController extends Controller
 {
     // fungsi untuk menghitung menggunakan metode profile matching
-    public function perhitungan() {
+    public function perhitungan(Request $request) {
         // STEP 1 : menghitung bobot tiap nilai kriteria
-        $nilai_seleksi = Nilai::all();
+        $periode = $request->periode;
+        $nilai_seleksi = Nilai::with('calon_paskibraka')
+                            ->whereHas('calon_paskibraka', function($query) use ($periode) {
+                                $query->where('periode', $periode);
+                            })
+                            ->get();
+
         $skalaTulisPbb = NilaiPbbTulis::all();
         $skalaLari = NilaiLari::all();
         $skalaPushupSitup = NilaiPushupSitup::all();
@@ -322,22 +329,65 @@ class PerhitunganController extends Controller
         }
         return response()->json([
             'success' => true,
-            'message' => 'Data Berhasil di Tambahkan'
+            'message' => 'Data Berhasil di Tambahkan',
+            'data' => $nilai_seleksi
         ]);
     }
 
     // fungsi untuk menampilkan halaman hasil perhitungan
     public function hasilPerhitunganShow() {
-        $bobotNilai = BobotNilai::all();
-        $nilaiGap = NilaiGap::all();
-        $bobotGap = BobotGap::all();
-        return view('layouts.perhitungan.hasil_perhitungan.show', compact('bobotNilai', 'nilaiGap', 'bobotGap'));
+        $tahun_sekarang = Carbon::now()->format('Y');
+        $bobotGap = BobotGap::whereHas('nilai_gap.bobot_nilai.nilai.calon_paskibraka', function($query) use ($tahun_sekarang) {
+            $query->where('periode', $tahun_sekarang);
+        })->with(['nilai_gap.bobot_nilai.nilai.calon_paskibraka'])->get();
+
+        // dd($bobotGap);
+
+        return view('layouts.perhitungan.hasil_perhitungan.show', compact('bobotGap'));
     }
 
-    // fungsi untuk menampilkan hasil seleksi
+    // fungsi untuk menampilkan hasil perhitungan berdasarkan periode yg dipilih
+    public function hasilPerhitunganShowPeriode(Request $request) {
+        $periode = $request->periode;
+    
+        $bobot_gap = BobotGap::whereHas('nilai_gap.bobot_nilai.nilai.calon_paskibraka', function($query) use ($periode) {
+            $query->where('periode', $periode);
+        })->with(['nilai_gap.bobot_nilai.nilai.calon_paskibraka'])->get();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Data Berhasil di Tampilkan',
+            'data' => $bobot_gap
+        ]);
+    }
+
+    // fungsi untuk menampilkan hasil perangkingan berdasarkan periode
     public function hasilSeleksiShow() {
-        $bobotGap = BobotGap::orderBy('nilai_akhir', 'desc')->get();
+        $tahun_sekarang = Carbon::now()->format('Y');
+        $bobotGap = BobotGap::whereHas('nilai_gap.bobot_nilai.nilai.calon_paskibraka', function($query) use ($tahun_sekarang) {
+            $query->where('periode', $tahun_sekarang);
+        })
+        ->with(['nilai_gap.bobot_nilai.nilai.calon_paskibraka'])
+        ->orderBy('nilai_akhir', 'desc')
+        ->get();
         return view('layouts.perhitungan.hasil_seleksi.show', compact('bobotGap'));
+    }
+
+    // fungsi untuk menampilkan hasil perangkingan berdasarkan periode
+    public function hasilSeleksiPeriodeShow(Request $request) {
+        $periode = $request->periode;
+        $bobot_gap = BobotGap::whereHas('nilai_gap.bobot_nilai.nilai.calon_paskibraka', function($query) use ($periode) {
+            $query->where('periode', $periode);
+        })
+        ->with(['nilai_gap.bobot_nilai.nilai.calon_paskibraka'])
+        ->orderBy('nilai_akhir', 'desc')
+        ->get();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Data Berhasil di Tampilkan',
+            'data' => $bobot_gap
+        ]);
     }
 
     // fungsi untuk mencetak hasil seleksi

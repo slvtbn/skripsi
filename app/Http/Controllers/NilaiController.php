@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Nilai;
 use Illuminate\Http\Request;
 use App\Models\CalonPaskibra;
@@ -10,9 +11,41 @@ use App\Http\Requests\NilaiRequest;
 class NilaiController extends Controller
 {
     public function nilaiShow() {
+        $tahun_sekarang = Carbon::now()->format('Y');
         $data_calon = CalonPaskibra::all();
-        $data_nilai = Nilai::all();
+        $data_nilai = Nilai::with('calon_paskibraka')
+                            ->whereHas('calon_paskibraka', function($query) use ($tahun_sekarang) {
+                                $query->where('periode', $tahun_sekarang);
+                            })
+                            ->get();
+
         return view('layouts.paskibraka.nilai.show', compact('data_calon', 'data_nilai'));
+    }
+
+    public function nilaiModalTambah(Request $request) {
+        $periode = $request->periode;
+        $data = CalonPaskibra::where('periode', $periode)->get();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Data Capas Berhasil di Dapatkan',
+            'data' => $data
+        ]);
+    }
+
+    public function nilaiShowPeriode(Request $request) {
+        $periode = $request->periode;
+        $data = Nilai::with('calon_paskibraka')
+                    ->whereHas('calon_paskibraka', function ($query) use ($periode) {
+                        $query->where('periode', $periode);
+                    })
+                    ->get();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Data Nilai Berhasil di Tampilkan',
+            'data' => $data
+        ]);
     }
 
     public function nilaiAdd(NilaiRequest $request) {

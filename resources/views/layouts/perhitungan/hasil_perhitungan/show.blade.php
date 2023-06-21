@@ -3,11 +3,28 @@
 @section('title', 'Hasil Perhitungan')
 
 @section('content')
+    <a href="" class="btn btn-primary btn-action mr-3" style="width: 10%;"><i class="fas fa-print pt-1 pr-2"></i>Print</a>
+
+    {{-- combo pilih periode --}}
+    <div class="form-group ml-auto" style="width: 20%">
+        <select class="form-control" id="periode-tampil-hasil" name="periode">
+            <option value="" disabled selected>-- Pilih Tahun Periode --</option>
+            @php
+                $tahun_now = \Carbon\Carbon::now()->format('Y');
+                $tahun_last = \Carbon\Carbon::now()->format('Y')-5;
+            @endphp
+
+            @for($i = $tahun_now; $i >= $tahun_last; $i--)
+                <option value="{{ $i }}">{{ $i }}</option>
+            @endfor
+        </select>
+    </div>
+
     <h6>Bobot Nilai</h6>
     <div class="card">
         <div class="card-body p-0">
             <div class="table-responsive">
-                <table class="table table-striped mb-0">
+                <table class="table table-striped mb-0" id="table-bobot-nilai">
                     <thead>
                         <tr>
                             <th>NO</th>
@@ -31,23 +48,23 @@
                         @php
                             $no = 1;
                         @endphp
-                        @foreach ($bobotNilai as $bobot)
+                        @foreach ($bobotGap as $bobot)
                         <tr>
                            <td>{{ $no++ }}</td>
-                           <td>{{ $bobot->nilai->calon_paskibraka->name }}</td>
-                           <td>{{ $bobot->bobot_akademik }}</td>
-                           <td>{{ $bobot->bobot_jalan_ditempat }}</td>
-                           <td>{{ $bobot->bobot_langkah_tegap }}</td>
-                           <td>{{ $bobot->bobot_penghormatan }}</td>
-                           <td>{{ $bobot->bobot_belok }}</td>
-                           <td>{{ $bobot->bobot_hadap }}</td>
-                           <td>{{ $bobot->bobot_lari }}</td>
-                           <td>{{ $bobot->bobot_pushup }}</td>
-                           <td>{{ $bobot->bobot_situp }}</td>
-                           <td>{{ $bobot->bobot_pullup }}</td>
-                           <td>{{ $bobot->bobot_tb }}</td>
-                           <td>{{ $bobot->bobot_bb }}</td>
-                           <td>{{ $bobot->bobot_bentuk_kaki }}</td>
+                           <td>{{ $bobot->nilai_gap->bobot_nilai->nilai->calon_paskibraka->name }}</td>
+                           <td>{{ $bobot->nilai_gap->bobot_nilai->bobot_akademik }}</td>
+                           <td>{{ $bobot->nilai_gap->bobot_nilai->bobot_jalan_ditempat }}</td>
+                           <td>{{ $bobot->nilai_gap->bobot_nilai->bobot_langkah_tegap }}</td>
+                           <td>{{ $bobot->nilai_gap->bobot_nilai->bobot_penghormatan }}</td>
+                           <td>{{ $bobot->nilai_gap->bobot_nilai->bobot_belok }}</td>
+                           <td>{{ $bobot->nilai_gap->bobot_nilai->bobot_hadap }}</td>
+                           <td>{{ $bobot->nilai_gap->bobot_nilai->bobot_lari }}</td>
+                           <td>{{ $bobot->nilai_gap->bobot_nilai->bobot_pushup }}</td>
+                           <td>{{ $bobot->nilai_gap->bobot_nilai->bobot_situp }}</td>
+                           <td>{{ $bobot->nilai_gap->bobot_nilai->bobot_pullup }}</td>
+                           <td>{{ $bobot->nilai_gap->bobot_nilai->bobot_tb }}</td>
+                           <td>{{ $bobot->nilai_gap->bobot_nilai->bobot_bb }}</td>
+                           <td>{{ $bobot->nilai_gap->bobot_nilai->bobot_bentuk_kaki }}</td>
                        </tr>            
                         @endforeach
                     </tbody>
@@ -60,7 +77,7 @@
     <div class="card">
         <div class="card-body p-0">
             <div class="table-responsive">
-                <table class="table table-striped mb-0">
+                <table class="table table-striped mb-0" id="table-nilai-gap">
                     <thead>
                     <tr>
                         <th>NO</th>
@@ -84,23 +101,23 @@
                          @php
                             $no = 1;
                         @endphp
-                        @foreach ($nilaiGap as $gap)
+                        @foreach ($bobotGap as $gap)
                         <tr>
                            <td>{{ $no++ }}</td>
-                           <td>{{ $gap->bobot_nilai->nilai->calon_paskibraka->name }}</td>
-                           <td>{{ $gap->gap_akademik }}</td>
-                           <td>{{ $gap->gap_jalan_ditempat }}</td>
-                           <td>{{ $gap->gap_langkah_tegap }}</td>
-                           <td>{{ $gap->gap_penghormatan }}</td>
-                           <td>{{ $gap->gap_belok }}</td>
-                           <td>{{ $gap->gap_hadap }}</td>
-                           <td>{{ $gap->gap_lari }}</td>
-                           <td>{{ $gap->gap_pushup }}</td>
-                           <td>{{ $gap->gap_situp }}</td>
-                           <td>{{ $gap->gap_pullup }}</td>
-                           <td>{{ $gap->gap_tb }}</td>
-                           <td>{{ $gap->gap_bb }}</td>
-                           <td>{{ $gap->gap_bentuk_kaki }}</td>
+                           <td>{{ $gap->nilai_gap->bobot_nilai->nilai->calon_paskibraka->name }}</td>
+                           <td>{{ $gap->nilai_gap->gap_akademik }}</td>
+                           <td>{{ $gap->nilai_gap->gap_jalan_ditempat }}</td>
+                           <td>{{ $gap->nilai_gap->gap_langkah_tegap }}</td>
+                           <td>{{ $gap->nilai_gap->gap_penghormatan }}</td>
+                           <td>{{ $gap->nilai_gap->gap_belok }}</td>
+                           <td>{{ $gap->nilai_gap->gap_hadap }}</td>
+                           <td>{{ $gap->nilai_gap->gap_lari }}</td>
+                           <td>{{ $gap->nilai_gap->gap_pushup }}</td>
+                           <td>{{ $gap->nilai_gap->gap_situp }}</td>
+                           <td>{{ $gap->nilai_gap->gap_pullup }}</td>
+                           <td>{{ $gap->nilai_gap->gap_tb }}</td>
+                           <td>{{ $gap->nilai_gap->gap_bb }}</td>
+                           <td>{{ $gap->nilai_gap->gap_bentuk_kaki }}</td>
                        </tr>            
                         @endforeach            
                     </tbody>
@@ -113,7 +130,7 @@
     <div class="card">
         <div class="card-body p-0">
             <div class="table-responsive">
-                <table class="table table-striped mb-0">
+                <table class="table table-striped mb-0" id="table-cf">
                     
                     <thead>
                     <tr>
@@ -157,7 +174,7 @@
     <div class="card">
         <div class="card-body p-0">
             <div class="table-responsive">
-                <table class="table table-striped mb-0">
+                <table class="table table-striped mb-0" id="table-sf">
                     
                     <thead>
                     <tr>
@@ -199,7 +216,7 @@
     <div class="card" style="width: 40%">
         <div class="card-body p-0">
             <div class="table-responsive">
-                <table class="table table-striped mb-0">
+                <table class="table table-striped mb-0" id="table-nilai-akhir">
                     <thead>
                     <tr>
                         <th>NO</th>

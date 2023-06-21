@@ -67,7 +67,7 @@
                         <div class="form-group">
                             <label style="font-size:15px" for="aspek_id">Aspek</label>
                             <select class="form-control" id="aspek_id">
-                                <option value="">-- Pilih Aspek --</option>
+                                <option value="" disabled selected>-- Pilih Aspek --</option>
                                 @foreach ($data_aspek as $aspek)
                                     <option value="{{ $aspek->id }}">{{ $aspek->aspek }}</option>
                                 @endforeach
