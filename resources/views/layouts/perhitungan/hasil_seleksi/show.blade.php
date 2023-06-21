@@ -3,10 +3,10 @@
 @section('title', 'Hasil Perangkingan')
 
 @section('content')
-    <a href="{{ route('print-hasil-seleksi') }}" class="btn btn-primary btn-action mb-3" style="width: 10%"><i class="fas fa-print pt-1 pr-2"></i>Print</a>
+    <button id="print-rangking" class="btn btn-primary btn-action mb-3" style="width: 10%" disabled><i class="fas fa-print pt-1 pr-2"></i>Print</button>
     {{-- combo pilih periode --}}
     <div class="container" style="width:60%; margin: 0; padding: 0">
-        <div class="form-group ml-auto" style="width: 50%">
+        <div class="form-group ml-auto" style="width: 30%">
             <select class="form-control" id="periode-tampil-hasil-rangking" name="periode">
                 <option value="" disabled selected>-- Pilih Tahun Periode --</option>
                 @php
@@ -29,6 +29,7 @@
                                 <th>Nama</th>
                                 <th>Jenis Kelamin</th>
                                 <th>Asal Sekolah</th>
+                                <th>Nilai Akhir</th>
                                 <th>Ranking</th>
                             </tr>
                         </thead>
@@ -42,6 +43,7 @@
                                 <td>{{ $bg->nilai_gap->bobot_nilai->nilai->calon_paskibraka->name }}</td>
                                 <td>{{ $bg->nilai_gap->bobot_nilai->nilai->calon_paskibraka->jenis_kelamin }}</td>
                                 <td>{{ $bg->nilai_gap->bobot_nilai->nilai->calon_paskibraka->asal_sekolah }}</td>
+                                <td>{{ $bg->nilai_akhir }}</td>
                                 <td>{{ $key+1 }}</td>
                             </tr>            
                             @endforeach

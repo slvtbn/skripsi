@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Hasil Seleksi</title>
+    <title>Calon Paskibra</title>
     <style>
         table {
             width: 100%;
@@ -14,30 +14,32 @@
 </head>
 <body>
     <center>
-        <h3>Hasil Seleksi Penerimaan Anggota Paskibraka Periode {{ $periode }}</h3>
+        <h3>Daftar Calon Paskibraka Kab.Biak Numfor Periode {{ $periode }}</h3>
         <table border="1" cellpadding="10" cellspacing="0">
             <thead>
                 <tr>
                     <th>No</th>
                     <th>Nama Lengkap</th>
-                    <th>Jenis Kelamin</th>
+                    <th>Alamat</th>
                     <th>Asal Sekolah</th>
-                    <th>Nilai Akhir</th>
-                    <th>Ranking</th>
+                    <th>Jenis Kelamin</th>
+                    <th>Tanggal Lahir</th>
+                    <th>No Telp</th>
                 </tr>
             </thead>
             <tbody>
                 @php
                     $no = 1;
                 @endphp
-                @foreach ($bobotGap as $key => $bg)
+                @foreach ($capas as $cps)
                 <tr>
                     <td>{{ $no++ }}</td>
-                    <td>{{ $bg->nilai_gap->bobot_nilai->nilai->calon_paskibraka->name }}</td>
-                    <td>{{ $bg->nilai_gap->bobot_nilai->nilai->calon_paskibraka->jenis_kelamin }}</td>
-                    <td>{{ $bg->nilai_gap->bobot_nilai->nilai->calon_paskibraka->asal_sekolah }}</td>
-                    <td>{{ $bg->nilai_akhir }}</td>
-                    <td>{{ $key+1 }}</td>
+                    <td>{{ $cps->name }}</td>
+                    <td>{{ $cps->alamat }}</td>
+                    <td>{{ $cps->asal_sekolah }}</td>
+                    <td>{{ $cps->jenis_kelamin }}</td>
+                    <td>{{ $cps->tgl_lahir }}</td>
+                    <td>{{ $cps->no_telp }}</td>
                 </tr>            
                 @endforeach
             </tbody>

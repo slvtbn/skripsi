@@ -3,7 +3,7 @@
 @section('title', 'Hasil Perhitungan')
 
 @section('content')
-    <a href="" class="btn btn-primary btn-action mr-3" style="width: 10%;"><i class="fas fa-print pt-1 pr-2"></i>Print</a>
+    <button id="print-perhitungan" class="btn btn-primary btn-action mr-3" style="width: 10%;" disabled><i class="fas fa-print pt-1 pr-2"></i>Print</button>
 
     {{-- combo pilih periode --}}
     <div class="form-group ml-auto" style="width: 20%">

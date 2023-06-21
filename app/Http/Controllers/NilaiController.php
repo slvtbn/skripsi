@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
+use Dompdf\Dompdf;
 use App\Models\Nilai;
 use Illuminate\Http\Request;
 use App\Models\CalonPaskibra;
@@ -97,6 +98,36 @@ class NilaiController extends Controller
             'success' => true,
             'message' => 'Data Berhasil di Hapus',
             'data' => $data
+        ]);
+    }
+
+    public function nilaiPrint(Request $request) {
+        $periode = $request->periode;
+        $data_nilai = Nilai::with('calon_paskibraka')
+                            ->whereHas('calon_paskibraka', function($query) use ($periode) {
+                                $query->where('periode', $periode);
+                            })
+                            ->get();
+
+        $dompdf = new Dompdf();
+        $dompdf->loadHtml(view('layouts.paskibraka.nilai.print', compact('data_nilai', 'periode')));
+        $dompdf->setPaper('A4', 'portrait');
+        $dompdf->render();
+
+        // return $dompdf->stream('hasil-seleksi.pdf');
+        $output = $dompdf->output();
+
+        // simpan file PDF penyimpanan local di server
+        $filename = 'nilai.pdf';
+        $path = public_path('pdfs/'.$filename);
+        file_put_contents($path, $output);
+
+        // kembalikan url tautan ke client
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Data Berhasil di Print',
+            'url' => url('pdfs/'.$filename)
         ]);
     }
 }

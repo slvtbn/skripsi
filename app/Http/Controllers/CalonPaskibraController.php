@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
+use Dompdf\Dompdf;
 use Illuminate\Http\Request;
 use App\Models\CalonPaskibra;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -70,6 +71,32 @@ class CalonPaskibraController extends Controller
             'success' => true,
             'message' => 'Data Berhasil di Hapus',
             'data' => $data
+        ]);
+    }
+
+    public function calonPaskibPrint(Request $request) {
+        $periode = $request->periode;
+        $capas = CalonPaskibra::where('periode', $periode)->get();
+
+        $dompdf = new Dompdf();
+        $dompdf->loadHtml(view('layouts.paskibraka.calon_paskib.print', compact('capas', 'periode')));
+        $dompdf->setPaper('A4', 'portrait');
+        $dompdf->render();
+
+        // return $dompdf->stream('hasil-seleksi.pdf');
+        $output = $dompdf->output();
+
+        // simpan file PDF penyimpanan local di server
+        $filename = 'calon-paskibra.pdf';
+        $path = public_path('pdfs/'.$filename);
+        file_put_contents($path, $output);
+
+        // kembalikan url tautan ke client
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Data Berhasil di Print',
+            'url' => url('pdfs/'.$filename)
         ]);
     }
 }

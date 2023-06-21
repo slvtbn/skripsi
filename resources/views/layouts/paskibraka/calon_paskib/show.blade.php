@@ -5,7 +5,7 @@
 @section('content')
 
     <a href="#" data-toggle="modal" data-target="#modalAjax" class="btn btn-primary btn-action mr-3" style="width: 10%" data-toggle="tooltip" title="" data-original-title="Tambah"><i class="fas fa-plus pt-1"></i></a>
-    <a href="" class="btn btn-primary btn-action mr-3" style="width: 10%;"><i class="fas fa-print pt-1 pr-2"></i>Print</a>
+    <button id="print-capas" class="btn btn-primary btn-action mr-3" style="width: 10%;" disabled><i class="fas fa-print pt-1 pr-2"></i>Print</button>
     
     {{-- <form id="form-periode" action="{{ route('show-periode') }}" method="get"> --}}
         {{-- @csrf --}}

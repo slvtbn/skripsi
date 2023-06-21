@@ -16,6 +16,7 @@ use App\Models\NilaiPullup;
 use Illuminate\Http\Request;
 use App\Models\NilaiPbbTulis;
 use App\Models\NilaiPushupSitup;
+use Illuminate\Support\Facades\Storage;
 
 class PerhitunganController extends Controller
 {
@@ -390,15 +391,66 @@ class PerhitunganController extends Controller
         ]);
     }
 
-    // fungsi untuk mencetak hasil seleksi
-    public function hasilSeleksiPrint() {
-        $bobotGap = BobotGap::orderBy('nilai_akhir', 'desc')->get();
+    // fungsi untuk mencetak hasil perhitungan
+    public function hasilPerhitunganPrint(Request $request) {
+        $periode = $request->periode;
+        $bobotGap = BobotGap::whereHas('nilai_gap.bobot_nilai.nilai.calon_paskibraka', function($query) use ($periode) {
+            $query->where('periode', $periode);
+        })
+        ->with(['nilai_gap.bobot_nilai.nilai.calon_paskibraka'])
+        ->get();
 
         $dompdf = new Dompdf();
-        $dompdf->loadHtml(view('layouts.perhitungan.hasil_seleksi.print', compact('bobotGap'))->render());
+        $dompdf->loadHtml(view('layouts.perhitungan.hasil_perhitungan.print', compact('bobotGap', 'periode')));
         $dompdf->setPaper('A4', 'portrait');
         $dompdf->render();
 
-        return $dompdf->stream('hasil-seleksi.pdf');
+        // return $dompdf->stream('hasil-seleksi.pdf');
+        $output = $dompdf->output();
+
+        // simpan file PDF penyimpanan local di server
+        $filename = 'hasil-perhitungan.pdf';
+        $path = public_path('pdfs/'.$filename);
+        file_put_contents($path, $output);
+
+        // kembalikan url tautan ke client
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Data Berhasil di Print',
+            'url' => url('pdfs/'.$filename)
+        ]);
+    }
+
+    // fungsi untuk mencetak hasil seleksi
+    public function hasilSeleksiPrint(Request $request) {
+        $periode = $request->periode;
+        $bobotGap = BobotGap::whereHas('nilai_gap.bobot_nilai.nilai.calon_paskibraka', function($query) use ($periode) {
+            $query->where('periode', $periode);
+        })
+        ->with(['nilai_gap.bobot_nilai.nilai.calon_paskibraka'])
+        ->orderBy('nilai_akhir', 'desc')
+        ->get();
+
+        $dompdf = new Dompdf();
+        $dompdf->loadHtml(view('layouts.perhitungan.hasil_seleksi.print', compact('bobotGap', 'periode')));
+        $dompdf->setPaper('A4', 'portrait');
+        $dompdf->render();
+
+        // return $dompdf->stream('hasil-seleksi.pdf');
+        $output = $dompdf->output();
+
+        // simpan file PDF penyimpanan local di server
+        $filename = 'hasil-perangkingan.pdf';
+        $path = public_path('pdfs/'.$filename);
+        file_put_contents($path, $output);
+
+        // kembalikan url tautan ke client
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Data Berhasil di Print',
+            'url' => url('pdfs/'.$filename)
+        ]);
     }
 } 

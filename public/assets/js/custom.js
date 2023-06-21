@@ -470,6 +470,8 @@ $('#periode-tampil-capas').on('change', function (e) {
     var value = $(this).find(":selected").val();
     console.log(value);
 
+    $('#print-capas').removeAttr('disabled');
+
     $.ajax({
         type: 'GET',
         url: '/calon-paskib/periode-tampil',
@@ -737,6 +739,7 @@ $('#periode-tampil-nilai').on('change', function (e) {
 
     var btn_hitung = $('#hitung-proses').removeAttr('disabled');
     var select_nama = $('#cari-nama').removeAttr('disabled');
+    $('#print-nilai').removeAttr('disabled');
 
     var value = $(this).find(":selected").val();
     console.log(value);
@@ -833,6 +836,8 @@ $('#periode-tampil-hasil').on('change', function (e) {
 
     var value = $(this).find(":selected").val();
     console.log(value);
+
+    $('#print-perhitungan').removeAttr('disabled');
 
     $.ajax({
         type: 'GET',
@@ -959,6 +964,8 @@ $('#periode-tampil-hasil-rangking').on('change', function (e) {
     var value = $(this).find(":selected").val();
     console.log(value);
 
+    $('#print-rangking').removeAttr('disabled');
+
     $.ajax({
         type: 'GET',
         url: '/hasil-seleksi/periode-tampil',
@@ -987,6 +994,142 @@ $('#periode-tampil-hasil-rangking').on('change', function (e) {
 
                 $('#table-hasil-perangkingan tbody').append(row);
             })
+        },
+        error: function (data) {
+            var errors = $.parseJSON(data.responseText);
+            console.log(errors);
+        }
+    })
+})
+
+// print rangking
+$(document).on('click', '#print-rangking', function (e) {
+    e.preventDefault();
+
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    var value = $('#periode-tampil-hasil-rangking').find(":selected").val();
+    console.log(value);
+
+    $.ajax({
+        type: 'GET',
+        url: '/print-hasil-seleksi',
+        data: {
+            'periode': value
+        },
+        success: function (response) {
+            console.log(response);
+            if (response.success) {
+                window.location.href = response.url;
+            } else {
+                console.error(response.message);
+            }
+        },
+        error: function (data) {
+            var errors = $.parseJSON(data.responseText);
+            console.log(errors);
+        }
+    })
+})
+
+// print capas
+$(document).on('click', '#print-capas', function (e) {
+    e.preventDefault();
+
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    var value = $('#periode-tampil-capas').find(":selected").val();
+    console.log(value);
+
+    $.ajax({
+        type: 'GET',
+        url: '/print-calon-paskibra',
+        data: {
+            'periode': value
+        },
+        success: function (response) {
+            console.log(response);
+            if (response.success) {
+                window.location.href = response.url;
+            } else {
+                console.error(response.message);
+            }
+        },
+        error: function (data) {
+            var errors = $.parseJSON(data.responseText);
+            console.log(errors);
+        }
+    })
+})
+
+// print nilai
+$(document).on('click', '#print-nilai', function (e) {
+    e.preventDefault();
+
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    var value = $('#periode-tampil-nilai').find(":selected").val();
+    console.log(value);
+
+    $.ajax({
+        type: 'GET',
+        url: '/print-nilai',
+        data: {
+            'periode': value
+        },
+        success: function (response) {
+            console.log(response);
+            if (response.success) {
+                window.location.href = response.url;
+            } else {
+                console.error(response.message);
+            }
+        },
+        error: function (data) {
+            var errors = $.parseJSON(data.responseText);
+            console.log(errors);
+        }
+    })
+})
+
+// print hasil perhitungan
+$(document).on('click', '#print-perhitungan', function (e) {
+    e.preventDefault();
+
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    var value = $('#periode-tampil-hasil').find(":selected").val();
+    console.log(value);
+
+    $.ajax({
+        type: 'GET',
+        url: '/print-hasil-perhitungan',
+        data: {
+            'periode': value
+        },
+        success: function (response) {
+            console.log(response);
+            if (response.success) {
+                window.location.href = response.url;
+            } else {
+                console.error(response.message);
+            }
         },
         error: function (data) {
             var errors = $.parseJSON(data.responseText);

@@ -52,6 +52,12 @@ return [
             'endpoint' => env('AWS_ENDPOINT'),
             'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
         ],
+        'pdfs' => [
+            'driver' => 'local',
+            'root' => public_path('pdfs'), // Ganti dengan path folder tujuan
+            'url' => env('APP_URL') . '/pdfs', // URL yang terkait dengan path di atas
+            'visibility' => 'public',
+        ],
 
     ],
 
