@@ -23,47 +23,54 @@
             </select>
         </div>
     {{-- </form> --}}
+    <div class="card">
         <div class="card-body p-0">
             <div class="table-responsive">
-            <table class="table table-striped mb-0" id="data-table">
-                <thead>
-                <tr>
-                    <th>No</th>
-                    <th>Nama Lengkap</th>
-                    <th>Alamat</th>
-                    <th>Asal Sekolah</th>
-                    <th>Jenis Kelamin</th>
-                    <th>Tanggal Lahir</th>
-                    <th>No Telp</th>
-                    <th style="width: 15%">Action</th>
-                </tr>
-                </thead>
-                <tbody>                
-                    @php
-                        $no = 1;
-                    @endphp     
-                    
-                    @foreach ($data_paskib as $data)
+                <table class="table table-striped mb-0" id="data-table">
+                    <thead>
                     <tr>
-                        <td>{{ $no++ }}</td>
-                        <td>{{ $data->name }}</td>
-                        <td>{{ $data->alamat }}</td>
-                        <td>{{ $data->asal_sekolah }}</td>
-                        <td>{{ $data->jenis_kelamin }}</td>
-                        <td>{{\Carbon\Carbon::parse($data->tgl_lahir)->isoFormat('D MMMM Y')}}</td>
-                        <td>{{ $data->no_telp }}</td>
-                        <td>
-                            <a href="javascript:void(0)" id="edit-calon-paskib" data-toggle="modal" data-target="#modalAjax" data-id="{{ $data->id }}" class="btn btn-secondary btn-action mr-1" data-toggle="tooltip"><i class="fas fa-pencil-alt pt-1"></i></a>
-
-                            <a href="javascript:void(0)" class="btn btn-danger btn-action delete-calon-paskib" data-toggle="modal" data-id="{{ $data->id }}" data-toggle="tooltip"><i class="fas fa-trash pt-1"></i>
-                            </a>
-                        </td>
+                        <th>No</th>
+                        <th>Nama Lengkap</th>
+                        <th>Alamat</th>
+                        <th>Asal Sekolah</th>
+                        <th>Jenis Kelamin</th>
+                        <th>Tanggal Lahir</th>
+                        <th>No Telp</th>
+                        <th style="width: 15%">Action</th>
                     </tr>
-                    @endforeach
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>                
+                        @php
+                            $no = 1;
+                        @endphp     
+                        
+                        @foreach ($data_paskib as $data)
+                        <tr>
+                            <td>{{ $no++ }}</td>
+                            <td>{{ $data->name }}</td>
+                            <td>{{ $data->alamat }}</td>
+                            <td>{{ $data->asal_sekolah }}</td>
+                            <td>{{ $data->jenis_kelamin }}</td>
+                            <td>{{\Carbon\Carbon::parse($data->tgl_lahir)->isoFormat('D MMMM Y')}}</td>
+                            <td>{{ $data->no_telp }}</td>
+                            <td>
+                                <a href="javascript:void(0)" id="edit-calon-paskib" data-toggle="modal" data-target="#modalAjax" data-id="{{ $data->id }}" class="btn btn-secondary btn-action mr-1" data-toggle="tooltip"><i class="fas fa-pencil-alt pt-1"></i></a>
+
+                                <a href="javascript:void(0)" class="btn btn-danger btn-action delete-calon-paskib" data-toggle="modal" data-id="{{ $data->id }}" data-toggle="tooltip"><i class="fas fa-trash pt-1"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
             </div>
+            
         </div>
+        {{-- <div class="card-body" style="margin-left:auto">
+            <nav aria-label="..." id="pagination">
+                {{ $data_paskib->links('pagination::bootstrap-4') }}
+            </nav>
+        </div> --}}
     </div>
 @endsection
 

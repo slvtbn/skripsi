@@ -479,11 +479,14 @@ $('#periode-tampil-capas').on('change', function (e) {
             'periode': value
         },
         success: function (response) {
-            console.log(response.data);
+            console.log(response);
             var data = response.data;
 
             // menghapus konten sebelumnya
             $('#data-table tbody').empty();
+
+            // menghapus pagination yang awal
+            // $('#pagination').empty();
 
             // memasukkan data ke dalam table 
             var no = 1;
@@ -507,13 +510,75 @@ $('#periode-tampil-capas').on('change', function (e) {
 
                 $('#data-table tbody').append(row);
             })
+
+            // $('#pagination').append(response.pagination)
         },
         error: function (data) {
             var errors = $.parseJSON(data.responseText);
-            console.log(data);
+            console.log(errors);
         }
     })
 })
+
+// $(document).on('click', '.pagination a', function (e) {
+//     e.preventDefault();
+//     var page = $(this).attr('href').split('page=')[1];
+//     var value = $('#periode-tampil-capas').find(":selected").val();
+//     $.ajax({
+//         url: '/calon-paskib/show-data-paginate',
+//         method: 'GET',
+//         data: {
+//             'page': page,
+//             'periode': value
+//         },
+//         success: function (response) {
+//             console.log(response)
+//             var data = response.data.data;
+
+//             // menghapus konten sebelumnya
+//             $('#data-table tbody').empty();
+
+//             // memasukkan data ke dalam table 
+//             var no = 1;
+//             data.forEach(function (data) {
+//                 var row = `
+//                     <tr>
+//                         <td> ${no++} </td>
+//                         <td> ${data.name} </td>
+//                         <td> ${data.alamat} </td>
+//                         <td> ${data.asal_sekolah} </td>
+//                         <td> ${data.jenis_kelamin} </td>
+//                         <td> ${data.tgl_lahir} </td>
+//                         <td> ${data.no_telp} </td>
+//                         <td>
+//                             <a href="javascript:void(0)" id="edit-calon-paskib" data-toggle="modal" data-target="#modalAjax" data-id="${data.id}" class="btn btn-secondary btn-action mr-1" data-toggle="tooltip"><i class="fas fa-pencil-alt pt-1"></i></a>
+//                             <a href="javascript:void(0)" class="btn btn-danger btn-action delete-calon-paskib" data-id="${data.id}"><i class="fas fa-trash pt-1"></i>
+//                             </a>
+//                         </td>
+//                     </tr>
+//                 `;
+
+//                 $('#data-table tbody').append(row);
+//             })
+
+//             var activePage = response.activePage;
+//             console.log(activePage);
+
+//             $('.pagination .page-item').removeClass('active');
+//             $('.pagination .page-item').each(function (index) {
+//                 var pageNumber = index + 1;
+//                 console.log(pageNumber);
+//                 if (pageNumber === activePage) {
+//                     $(this).addClass('active');
+//                 }
+//             })
+//         },
+//         error: function (data) {
+//             var errors = $.parseJSON(data.responseText);
+//             console.log(data);
+//         }
+//     })
+// })
 
 // Edit nilai
 $(document).on('click', '#edit-nilai', function (e) {
@@ -549,38 +614,38 @@ $(document).on('click', '#edit-nilai', function (e) {
 })
 
 // button tambah nilai
-$(document).on('click', '#btn-tambah-nilai', function (e) {
-    // mengosongkan select option
-    $('#cari-nama').empty();
+// $(document).on('click', '#btn-tambah-nilai', function (e) {
+//     // mengosongkan select option
+//     $('#cari-nama').empty();
 
-    // Menambahkan placeholder kembali setelah mengosongkan
-    $('#cari-nama').append('<option value="" selected disabled>-- Masukkan Nama --</option>');
+//     // Menambahkan placeholder kembali setelah mengosongkan
+//     $('#cari-nama').append('<option value="" selected disabled>-- Masukkan Nama --</option>');
 
-    var value = $('#periode-tampil-nilai').find(":selected").val();
-    console.log(value);
+//     var value = $('#periode-tampil-nilai').find(":selected").val();
+//     console.log(value);
 
-    // mengambil data dari database menggunakan ajax
-    $.ajax({
-        url: '/nilai/modal-tambah',
-        type: 'GET',
-        data: {
-            'periode': value
-        },
-        success: function (response) {
-            console.log(response.data);
-            var data = response.data;
+//     // mengambil data dari database menggunakan ajax
+//     $.ajax({
+//         url: '/nilai/modal-tambah',
+//         type: 'GET',
+//         data: {
+//             'periode': value
+//         },
+//         success: function (response) {
+//             console.log(response.data);
+//             var data = response.data;
 
-            data.forEach(function (data) {
-                $('#cari-nama').append('<option value="' + data.id + '">' + data.name + '</option>');
-            })
+//             data.forEach(function (data) {
+//                 $('#cari-nama').append('<option value="' + data.id + '">' + data.name + '</option>');
+//             })
 
-        },
-        error: function (data) {
-            var errors = $.parseJSON(data.responseText);
-            console.log(data);
-        }
-    })
-})
+//         },
+//         error: function (data) {
+//             var errors = $.parseJSON(data.responseText);
+//             console.log(data);
+//         }
+//     })
+// })
 
 // input dan update nilai
 $('#save-nilai').on('click', function (e) {
@@ -741,6 +806,12 @@ $('#periode-tampil-nilai').on('change', function (e) {
     var select_nama = $('#cari-nama').removeAttr('disabled');
     $('#print-nilai').removeAttr('disabled');
 
+    // mengosongkan select option
+    $('#cari-nama').empty();
+
+    // Menambahkan placeholder kembali setelah mengosongkan
+    $('#cari-nama').append('<option value="" selected disabled>-- Masukkan Nama --</option>');
+
     var value = $(this).find(":selected").val();
     console.log(value);
 
@@ -751,8 +822,9 @@ $('#periode-tampil-nilai').on('change', function (e) {
             'periode': value
         },
         success: function (response) {
-            console.log(response.data);
-            var data = response.data;
+            console.log(response.data[1]);
+            var data = response.data[0];
+            var nama = response.data[1];
 
             // menghapus konten sebelumnya
             $('#data-table-nilai tbody').empty();
@@ -776,6 +848,10 @@ $('#periode-tampil-nilai').on('change', function (e) {
                 `;
 
                 $('#data-table-nilai tbody').append(row);
+            })
+
+            nama.forEach(function (data) {
+                $('#cari-nama').append('<option value="' + data.id + '">' + data.name + '</option>');
             })
         },
         error: function (data) {
@@ -988,6 +1064,7 @@ $('#periode-tampil-hasil-rangking').on('change', function (e) {
                         <td>${ data['nilai_gap']['bobot_nilai']['nilai']['calon_paskibraka']['name'] }</td>
                         <td>${ data['nilai_gap']['bobot_nilai']['nilai']['calon_paskibraka']['jenis_kelamin'] }</td>
                         <td>${ data['nilai_gap']['bobot_nilai']['nilai']['calon_paskibraka']['asal_sekolah'] }</td>
+                        <td>${ data['nilai_akhir']}</td>
                         <td>${ key+1 }</td>
                     </tr>   
                 `

@@ -42,6 +42,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
     Route::put('/calon-paskib/update/{id}', [CalonPaskibraController::class, 'calonPaskibUpdate'])->name('update-calon-paskib');
     Route::delete('/calon-paskib/delete/{id}', [CalonPaskibraController::class, 'calonPaskibDelete'])->name('delete-calon-paskib');
     Route::get('/calon-paskib/periode-tampil', [CalonPaskibraController::class, 'calonPaskibShowPeriode'])->name('show-periode-capas');
+    Route::get('/calon-paskib/show-data-paginate', [CalonPaskibraController::class, 'calonPaskibShowDataPaginate'])->name('show-capas-paginate');
     Route::get('/print-calon-paskibra', [CalonPaskibraController::class, 'calonPaskibPrint'])->name('print-calon-paskib');
 
     Route::get('/nilai', [NilaiController::class, 'nilaiShow'])->name('show-nilai');
@@ -64,4 +65,4 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
     Route::get('/hasil-seleksi/periode-tampil', [PerhitunganController::class, 'hasilSeleksiPeriodeShow'])->name('show-periode-rangking');
     Route::get('/print-hasil-seleksi', [PerhitunganController::class, 'hasilSeleksiPrint'])->name('print-hasil-seleksi');
 });
-Route::get('/logout', [UserController::class, 'logout'])->name('logout');
+Route::get('/logout-spk', [UserController::class, 'logout'])->name('logout-spk');

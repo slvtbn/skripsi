@@ -19,15 +19,53 @@ class CalonPaskibraController extends Controller
     }
 
     public function calonPaskibShowPeriode(Request $request) {
+        // ambil data dari database menggunakan model
         $data_paskib = CalonPaskibra::where('periode', $request->periode)->get();
-        // return view('layouts.paskibraka.calon_paskib.show', compact('data_paskib'));
+
+        $data_paskib->transform(function ($item) {
+            $item->tgl_lahir = Carbon::parse($item->tgl_lahir)->isoFormat('D MMM Y');
+            return $item;
+        });
 
         return response()->json([
             'success' => true,
             'message' => 'Data Berhasil di Tampilkan',
-            'data' => $data_paskib
+            'data' => $data_paskib,
         ]);
     }
+
+    // public function calonPaskibShowDataPaginate(Request $request) {
+    //     // ambil nomor halaman dari permintaan ajax
+    //     $page = $request->page;
+
+    //     if($request->periode != null) {
+    //         $periode = $request->periode;
+    //     }else {
+    //         $periode = Carbon::now()->format('Y');
+    //     }
+
+    //     if($page == 2) {
+    //         $activePage = 2;
+    //     }
+
+    //     // jumlah item per halaman
+    //     $perPage = 10;
+
+    //     // ambil data dari database menggunakan model
+    //     $data_paskib = CalonPaskibra::where('periode', $periode)->paginate($perPage, ['*'], 'page', $page);
+
+    //     $pagination = $data_paskib->links('pagination::bootstrap-4')->render();
+
+    //     return response()->json([
+    //         'success' => true,
+    //         'message' => 'Data Berhasil di Tampilkan',
+    //         'data' => $data_paskib,
+    //         'pagination' => $pagination,
+    //         'page' => $page,
+    //         'periode' => $request->periode,
+    //         'activePage' => $activePage
+    //     ]);
+    // }
 
     public function calonPaskibAdd(CalonPaskibrakaRequest $request) {
         $data = $request->all();

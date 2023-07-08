@@ -8,43 +8,49 @@
     <div class="card">
         <div class="card-body p-0">
             <div class="table-responsive">
-            <table class="table table-striped mb-0">
-                <thead>
-                <tr>
-                    <th>No</th>
-                    <th>Aspek</th>
-                    <th>Simbol</th>
-                    <th>Kriteria</th>
-                    <th>Nilai Target</th>
-                    <th>Kelas</th>
-                    <th>Action</th>
-                </tr>
-                </thead>
-                <tbody>                
-                @php
-                    $no = 1;
-                @endphp     
-                
-                @foreach ($data_kriteria as $kriteria)
-                <tr>
-                    <td>{{ $no++ }}</td>
-                    <td>{{ $kriteria->aspek->aspek }}</td>
-                    <td>{{ $kriteria->simbol }}</td>
-                    <td>{{ $kriteria->kriteria }}</td>
-                    <td>{{ $kriteria->nilai_target }}</td>
-                    <td>{{ $kriteria->kelas }}</td>
-                    <td>
-                        <a href="javascript:void(0)" id="edit-kriteria" data-toggle="modal" data-target="#modalAjax" data-id="{{ $kriteria->id }}" class="btn btn-secondary btn-action mr-1" data-toggle="tooltip" title="" data-original-title="{{ $kriteria->id }}"><i class="fas fa-pencil-alt pt-1"></i></a>
-                        
-                        <a href="javascript:void(0)" class="btn btn-danger btn-action delete-kriteria" data-toggle="modal" data-id="{{ $kriteria->id }}" data-toggle="tooltip"><i class="fas fa-trash pt-1"></i>
-                        </a>
-                    </td>
-                </tr>
-                @endforeach
-                </tbody>
-            </table>
+                <table class="table table-striped mb-0">
+                    <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Aspek</th>
+                        <th>Simbol</th>
+                        <th>Kriteria</th>
+                        <th>Nilai Target</th>
+                        <th>Kelas</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>                
+                    @php
+                        $no = 1;
+                    @endphp     
+                    
+                    @foreach ($data_kriteria as $kriteria)
+                    <tr>
+                        <td>{{ $no++ }}</td>
+                        <td>{{ $kriteria->aspek->aspek }}</td>
+                        <td>{{ $kriteria->simbol }}</td>
+                        <td>{{ $kriteria->kriteria }}</td>
+                        <td>{{ $kriteria->nilai_target }}</td>
+                        <td>{{ $kriteria->kelas }}</td>
+                        <td>
+                            <a href="javascript:void(0)" id="edit-kriteria" data-toggle="modal" data-target="#modalAjax" data-id="{{ $kriteria->id }}" class="btn btn-secondary btn-action mr-1" data-toggle="tooltip" title="" data-original-title="{{ $kriteria->id }}"><i class="fas fa-pencil-alt pt-1"></i></a>
+                            
+                            <a href="javascript:void(0)" class="btn btn-danger btn-action delete-kriteria" data-toggle="modal" data-id="{{ $kriteria->id }}" data-toggle="tooltip"><i class="fas fa-trash pt-1"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    @endforeach
+                    </tbody>
+                </table>
             </div>
         </div>
+
+        {{-- <div class="card-body" style="margin-left:auto">
+            <nav aria-label="...">
+                {{ $data_kriteria->links('pagination::bootstrap-4') }}
+            </nav>
+        </div> --}}
     </div>
 @endsection
 
@@ -86,8 +92,8 @@
                         </div>
                         <div class="form-group">
                             <label style="font-size:15px" for="nilai_target">Nilai Target</label>
-                            <select class="form-control" id="nilai_target">
-                                <option value="">-- Pilih Nilai Target --</option>
+                            <select class="form-control" id="nilai_target" >
+                                <option value="" disabled selected>-- Pilih Nilai Target --</option>
                                 <option value="1">1</option>
                                 <option value="2">2</option>
                                 <option value="3">3</option>
@@ -99,7 +105,7 @@
                         <div class="form-group">
                             <label style="font-size:15px" for="kelas">Kelas</label>
                             <select class="form-control" id="kelas">
-                                <option value="">-- Pilih Kelas --</option>
+                                <option value="" disabled selected>-- Pilih Kelas --</option>
                                 <option value="Core Factor">Core Factor</option>
                                 <option value="Secondary Factor">Secondary Factor</option>
                             </select>

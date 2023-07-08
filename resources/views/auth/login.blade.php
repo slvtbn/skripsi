@@ -8,14 +8,8 @@
                 <div class="row">
                 <div class="col-12 col-sm-8 offset-sm-2 col-md-6 offset-md-3 col-lg-6 offset-lg-3 col-xl-4 offset-xl-4">
                     <div class="login-brand">
-                    <img src="assets/img/stisla-fill.svg" alt="logo" width="100" class="shadow-light rounded-circle">
+                        <h1 class="text-primary">SPASKIB</h1>
                     </div>
-                    @if($errors->has('failed'))
-                    {{-- <div class="alert alert-danger">
-                        {{ $errors->first('failed') }}
-                    </div> --}}
-                    @endif
-
                     <div class="card card-primary">
                     <div class="card-header"><h4>Login</h4></div>
 
@@ -26,22 +20,17 @@
                             <label for="email">Email</label>
                             <input id="email" type="email" class="form-control" name="email" tabindex="1" value="{{ old('email') }}" required autofocus>
                             <div class="invalid-feedback">
-                            Please fill in your email
+                                Kolom harus diisi
                             </div>
                         </div>
 
                         <div class="form-group">
                             <div class="d-block">
                                 <label for="password" class="control-label">Password</label>
-                            <div class="float-right">
-                                <a href="auth-forgot-password.html" class="text-small">
-                                Forgot Password?
-                                </a>
-                            </div>
                             </div>
                             <input id="password" type="password" class="form-control" name="password" tabindex="2" required>
                             <div class="invalid-feedback">
-                            please fill in your password
+                                Kolom harus diisi
                             </div>
                         </div>
 
@@ -55,14 +44,24 @@
                     </div>
                     </div>
                     <div class="mt-5 text-muted text-center">
-                    Don't have an account? <a href="{{ route('register') }}">Create One</a>
+                    Belum punya akun? <a href="{{ route('register') }}">Buat disini</a>
                     </div>
                     <div class="simple-footer">
-                    Copyright &copy; Purna Paskibraka Indonesia
+                    Copyright &copy; PPI Biak Numfor
                     </div>
                 </div>
                 </div>
             </div>
         </section>
     </div>
+    @if ($errors->any())
+        <script>
+            // Menampilkan pesan kesalahan dengan SweetAlert2
+            Swal.fire({
+                icon: 'error',
+                title: 'Failed',
+                text: 'Username atau Password Salah'
+            });
+        </script>
+    @endif
 @endsection

@@ -6,7 +6,7 @@ function bobot($skalaPenilaian, $nilai) {
         if($nilai >= $skala->batas_atas && $nilai <= $skala->batas_bawah) {
             return $bobot = $skala->bobot;
         }else{
-            $bobot = null;
+            $bobot = 1;
         }
     }
     return $bobot;
@@ -20,7 +20,7 @@ function bobot2($skalaPenilaian, $nilai, $gender) {
         }else if($gender == 'Perempuan' && $nilai >= $skala->ba_cewe && $nilai <= $skala->bb_cewe) {
             return $bobot = $skala->bobot;
         }else {
-            $bobot = null;
+            $bobot = 1;
         }
     }
     return $bobot;
