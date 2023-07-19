@@ -4,13 +4,13 @@
 
 @section('content')
 
-    <a href="#" data-toggle="modal" data-target="#modalAjax" class="btn btn-primary btn-action mr-3" style="width: 10%" data-toggle="tooltip" title="" data-original-title="Tambah"><i class="fas fa-plus pt-1"></i></a>
-    <button id="print-capas" class="btn btn-primary btn-action mr-3" style="width: 10%;" disabled><i class="fas fa-print pt-1 pr-2"></i>Print</button>
+    <a href="#" data-toggle="modal" data-target="#modalAjax" class="btn btn-primary btn-action mr-3 btn-tambah" data-toggle="tooltip" title="" data-original-title="Tambah"><i class="fas fa-plus pt-1"></i></a>
+    <button id="print-capas" class="btn btn-primary btn-action mr-3 btn-tambah" disabled><i class="fas fa-print pt-1 pr-2"></i>Print</button>
     
     {{-- <form id="form-periode" action="{{ route('show-periode') }}" method="get"> --}}
         {{-- @csrf --}}
-        <div class="form-group ml-auto" style="width: 20%">
-            <select class="form-control" id="periode-tampil-capas" name="periode">
+        <div class="form-group">
+            <select class="form-control select-periode" id="periode-tampil-capas" name="periode">
                 <option value="" disabled selected>-- Pilih Tahun Periode --</option>
                 @php
                     $tahun_now = \Carbon\Carbon::now()->format('Y');

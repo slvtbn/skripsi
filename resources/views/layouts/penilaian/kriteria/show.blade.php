@@ -4,8 +4,8 @@
 
 @section('content')
 
-    <a href="#" data-toggle="modal" data-target="#modalAjax" class="btn btn-primary btn-action mb-3" style="width: 10%" data-toggle="tooltip" title="" data-original-title="Tambah"><i class="fas fa-plus pt-1"></i></a>
-    <div class="card">
+    <a href="#" data-toggle="modal" data-target="#modalAjax" class="btn btn-primary btn-action mb-3 btn-tambah" data-toggle="tooltip" title="" data-original-title="Tambah"><i class="fas fa-plus pt-1"></i></a>
+    <div class="card content" style="width: 100%">
         <div class="card-body p-0">
             <div class="table-responsive">
                 <table class="table table-striped mb-0">

@@ -3,14 +3,14 @@
 @section('title', 'Nilai')
 
 @section('content')
-    <a href="#" id="btn-tambah-nilai" data-toggle="modal" data-target="#modalAjax" class="btn btn-primary btn-action mr-3" style="width: 10%" data-toggle="tooltip" title="" data-original-title="Tambah"><i class="fas fa-plus pt-1"></i></a>
+    <a href="#" id="btn-tambah-nilai" data-toggle="modal" data-target="#modalAjax" class="btn btn-primary btn-action mr-3 btn-tambah" data-toggle="tooltip" title="" data-original-title="Tambah"><i class="fas fa-plus pt-1"></i></a>
     {{-- <a href="{{ route('perhitungan') }}" class="btn btn-primary btn-action mb-3" style="width: 20%">Hitung Proses</a> --}}
-    <button id="hitung-proses" class="btn btn-primary btn-action mr-3" style="width: 20%" disabled>Hitung Proses</button>
-    <button id="print-nilai" class="btn btn-primary btn-action" style="width: 10%" disabled><i class="fas fa-print pt-1 pr-2"></i>Print</button>
+    <button id="print-nilai" class="btn btn-primary btn-action mr-3 btn-tambah" disabled><i class="fas fa-print pt-1 pr-2"></i>Print</button>
+    <button id="hitung-proses" class="btn btn-primary btn-action btn-tambah" disabled>Hitung Proses</button>
 
     {{-- combo pilih periode --}}
-    <div class="form-group ml-auto" style="width: 20%">
-        <select class="form-control" id="periode-tampil-nilai" name="periode">
+    <div class="form-group ml-auto">
+        <select class="form-control select-periode" id="periode-tampil-nilai" name="periode">
             <option value="" disabled selected>-- Pilih Tahun Periode --</option>
             @php
                 $tahun_now = \Carbon\Carbon::now()->format('Y');

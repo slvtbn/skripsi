@@ -5,4 +5,49 @@
  * 
  */
 
-/*# sourceMappingURL=custom.css.map */
+/* # sourceMappingURL=custom.css.map */
+.aspek {
+    width: 50%;
+}
+
+.btn-tambah{
+    width: 10%
+}
+
+.select-periode {
+    width: 25%;
+    margin-left: auto;
+    margin-top: 10px;
+}
+
+.container-content {
+    width: 80%;
+}
+
+@media screen and (max-width:768px) {
+    .aspek {
+        width: 100%;
+    }
+
+    .btn-tambah {
+        width: 20%;
+    }
+
+    .select-periode {
+        width: 30%;
+    }
+
+    .container-content {
+        width: 100%;
+    }
+}
+@media screen and (max-width:576px) {
+    
+    .btn-tambah {
+        width: 30%;
+    }
+
+    .select-periode {
+        width: 100%;
+    }
+}

@@ -675,7 +675,7 @@ $('#save-nilai').on('click', function (e) {
                     'Data Berhasil Ditambahkan',
                     'success'
                 ).then(() => {
-                    location.reload();
+                    window.location = '/nilai'
                 })
             },
             error: function (data) {
@@ -698,7 +698,7 @@ $('#save-nilai').on('click', function (e) {
                     'Data Berhasil Diubah',
                     'success'
                 ).then(() => {
-                    location.reload();
+                    window.location = '/nilai'
                 })
             },
             error: function (data) {

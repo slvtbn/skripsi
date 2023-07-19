@@ -3,11 +3,11 @@
 @section('title', 'Hasil Perhitungan')
 
 @section('content')
-    <button id="print-perhitungan" class="btn btn-primary btn-action mr-3" style="width: 10%;" disabled><i class="fas fa-print pt-1 pr-2"></i>Print</button>
+    <button id="print-perhitungan" class="btn btn-primary btn-action mr-3 btn-tambah" disabled><i class="fas fa-print pt-1 pr-2"></i>Print</button>
 
     {{-- combo pilih periode --}}
-    <div class="form-group ml-auto" style="width: 20%">
-        <select class="form-control" id="periode-tampil-hasil" name="periode">
+    <div class="form-group ml-auto">
+        <select class="form-control select-periode" id="periode-tampil-hasil" name="periode">
             <option value="" disabled selected>-- Pilih Tahun Periode --</option>
             @php
                 $tahun_now = \Carbon\Carbon::now()->format('Y');

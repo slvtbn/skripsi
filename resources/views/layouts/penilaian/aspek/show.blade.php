@@ -4,36 +4,36 @@
 
 @section('content')
 
-    <a href="#" data-toggle="modal" data-target="#modalAjax" class="btn btn-primary btn-action mb-3" style="width: 10%" data-toggle="tooltip" title="" data-original-title="Tambah"><i class="fas fa-plus pt-1"></i></a>
-    <div class="card" style="width:50%">
+    <a href="#" data-toggle="modal" data-target="#modalAjax" class="btn btn-primary btn-action mb-3 btn-tambah" data-toggle="tooltip" title="" data-original-title="Tambah"><i class="fas fa-plus pt-1"></i></a>
+    <div class="card aspek">
         <div class="card-body p-0">
             <div class="table-responsive">
-            <table class="table table-striped mb-0">
-                <thead>
-                <tr>
-                    <th>No</th>
-                    <th>Aspek</th>
-                    <th>Action</th>
-                </tr>
-                </thead>
-                <tbody>        
-                @php
-                    $no = 1;  
-                @endphp
-                @foreach ($data as $d)                 
-                <tr>
-                    <td>{{ $no++ }}</td>
-                    <td>{{ $d->aspek }}</td>
-                    <td>
-                        <a href="javascript:void(0)" id="edit-aspek" data-toggle="modal" data-target="#modalAjax" data-id="{{ $d->id }}" class="btn btn-secondary btn-action mr-1" data-toggle="tooltip" title="" data-original-title="{{ $d->id }}"><i class="fas fa-pencil-alt pt-1"></i></a>
-                        
-                        <a href="javascript:void(0)" class="btn btn-danger btn-action delete-aspek" data-toggle="modal" data-id="{{ $d->id }}" data-toggle="tooltip"><i class="fas fa-trash pt-1"></i>
-                        </a>
-                    </td>
-                </tr>
-                @endforeach
-                </tbody>
-            </table>
+                <table class="table table-striped mb-0">
+                    <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Aspek</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>        
+                    @php
+                        $no = 1;  
+                    @endphp
+                    @foreach ($data as $d)                 
+                    <tr>
+                        <td>{{ $no++ }}</td>
+                        <td>{{ $d->aspek }}</td>
+                        <td>
+                            <a href="javascript:void(0)" id="edit-aspek" data-toggle="modal" data-target="#modalAjax" data-id="{{ $d->id }}" class="btn btn-secondary btn-action mr-1" data-toggle="tooltip" title="" data-original-title="{{ $d->id }}"><i class="fas fa-pencil-alt pt-1"></i></a>
+                            
+                            <a href="javascript:void(0)" class="btn btn-danger btn-action delete-aspek" data-toggle="modal" data-id="{{ $d->id }}" data-toggle="tooltip"><i class="fas fa-trash pt-1"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    @endforeach
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>

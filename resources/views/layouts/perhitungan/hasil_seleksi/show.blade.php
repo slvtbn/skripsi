@@ -3,11 +3,11 @@
 @section('title', 'Hasil Perangkingan')
 
 @section('content')
-    <button id="print-rangking" class="btn btn-primary btn-action mb-3" style="width: 10%" disabled><i class="fas fa-print pt-1 pr-2"></i>Print</button>
+    <button id="print-rangking" class="btn btn-primary btn-action mb-3 btn-tambah" disabled><i class="fas fa-print pt-1 pr-2"></i>Print</button>
     {{-- combo pilih periode --}}
-    <div class="container" style="width:60%; margin: 0; padding: 0">
-        <div class="form-group ml-auto" style="width: 30%">
-            <select class="form-control" id="periode-tampil-hasil-rangking" name="periode">
+    <div class="container-content">
+        <div class="form-group ml-auto">
+            <select class="form-control select-periode" id="periode-tampil-hasil-rangking" name="periode">
                 <option value="" disabled selected>-- Pilih Tahun Periode --</option>
                 @php
                     $tahun_now = \Carbon\Carbon::now()->format('Y');
