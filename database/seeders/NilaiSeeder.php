@@ -276,7 +276,7 @@ class NilaiSeeder extends Seeder
             'jalan_ditempat' => 80,
             'langkah_tegap' => 85,
             'penghormatan' => 90,
-            'belok' => 880,
+            'belok' => 80,
             'hadap' => 86,
             'lari' => 5,
             'pushup' => 50,
@@ -363,7 +363,7 @@ class NilaiSeeder extends Seeder
             'situp' => 50,
             'pullup' => 7,
             'tb' => 167,
-            'bb' => 5,
+            'bb' => 55,
             'bentuk_kaki' => 5
         ]);
         Nilai::create([
@@ -544,6 +544,22 @@ class NilaiSeeder extends Seeder
         ]);
         Nilai::create([
             'calon_paskibraka_id' => 34,
+            'akademik' => 85,
+            'jalan_ditempat' => 80,
+            'langkah_tegap' => 82,
+            'penghormatan' => 80,
+            'belok' => 80,
+            'hadap' => 80,
+            'lari' => 5,
+            'pushup' => 34,
+            'situp' => 28,
+            'pullup' => 32,
+            'tb' => 166,
+            'bb' => 50,
+            'bentuk_kaki' => 5
+        ]);
+        Nilai::create([
+            'calon_paskibraka_id' => 35,
             'akademik' => 80,
             'jalan_ditempat' => 80,
             'langkah_tegap' => 80,
@@ -559,7 +575,7 @@ class NilaiSeeder extends Seeder
             'bentuk_kaki' => 5
         ]);
         Nilai::create([
-            'calon_paskibraka_id' => 35,
+            'calon_paskibraka_id' => 36,
             'akademik' => 86,
             'jalan_ditempat' => 80,
             'langkah_tegap' => 78,
@@ -575,7 +591,7 @@ class NilaiSeeder extends Seeder
             'bentuk_kaki' => 5
         ]);
         Nilai::create([
-            'calon_paskibraka_id' => 36,
+            'calon_paskibraka_id' => 37,
             'akademik' => 90,
             'jalan_ditempat' => 75,
             'langkah_tegap' => 70,
@@ -591,7 +607,7 @@ class NilaiSeeder extends Seeder
             'bentuk_kaki' => 5
         ]);
         Nilai::create([
-            'calon_paskibraka_id' => 37,
+            'calon_paskibraka_id' => 38,
             'akademik' => 90,
             'jalan_ditempat' => 80,
             'langkah_tegap' => 82,
@@ -605,22 +621,6 @@ class NilaiSeeder extends Seeder
             'tb' => 162,
             'bb' => 60,
             'bentuk_kaki' => 1
-        ]);
-        Nilai::create([
-            'calon_paskibraka_id' => 38,
-            'akademik' => 85,
-            'jalan_ditempat' => 80,
-            'langkah_tegap' => 82,
-            'penghormatan' => 82,
-            'belok' => 80,
-            'hadap' => 78,
-            'lari' => 5,
-            'pushup' => 40,
-            'situp' => 35,
-            'pullup' => 2,
-            'tb' => 160,
-            'bb' => 62,
-            'bentuk_kaki' => 5
         ]);
         Nilai::create([
             'calon_paskibraka_id' => 39,

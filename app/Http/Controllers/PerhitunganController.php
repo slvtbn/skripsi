@@ -331,7 +331,7 @@ class PerhitunganController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Data Berhasil di Tambahkan',
-            'data' => $nilai_seleksi
+            'data' => $cf
         ]);
     }
 

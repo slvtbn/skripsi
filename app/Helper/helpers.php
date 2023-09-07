@@ -32,9 +32,9 @@ function bobot3($tinggi, $berat) {
     // tinggi = 160
     // bb ideal = 50 ; 55 ; 45
     $bb_ideal = $tinggi - 110;
-    if($berat == $bb_ideal || ($berat <= ($bb_ideal+5) && $berat > $bb_ideal) || ($berat >= ($bb_ideal-5) && $berat < 50)) {
+    if($berat == $bb_ideal || ($berat <= ($bb_ideal+5) && $berat > $bb_ideal) || ($berat >= ($bb_ideal-5) && $berat < $bb_ideal)) {
         $bobot = 5;
-    }else if(($berat <= ($bb_ideal+10) && $berat > $bb_ideal) || ($berat >= ($bb_ideal-10) && $berat < 50)){
+    }else if(($berat <= ($bb_ideal+10) && $berat > $bb_ideal) || ($berat >= ($bb_ideal-10) && $berat < $bb_ideal)){
         $bobot = 3;
     }else {
         $bobot = 1;

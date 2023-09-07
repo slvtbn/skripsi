@@ -196,10 +196,10 @@ class CalonPaskibraSeeder extends Seeder
         ]);
         CalonPaskibra::create([
             'periode' => '2023',
-            'name' => 'Aldillah Putri',
+            'name' => 'Anggita Putri',
             'alamat' => 'Sorido',
             'asal_sekolah' => 'SMA Negeri 1',
-            'jenis_kelamin' => 'Laki-laki',
+            'jenis_kelamin' => 'Perempuan',
             'tgl_lahir' => '2023-05-24',
             'no_telp' => '123456'
         ]);
@@ -259,7 +259,7 @@ class CalonPaskibraSeeder extends Seeder
         ]);
         CalonPaskibra::create([
             'periode' => '2023',
-            'name' => 'Tidora Ronsumbre',
+            'name' => 'Meisye Huwae',
             'alamat' => 'Samofa',
             'asal_sekolah' => 'SMA YPK 2',
             'jenis_kelamin' => 'Perempuan',

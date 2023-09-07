@@ -22,18 +22,6 @@ class NilaiController extends Controller
 
         return view('layouts.paskibraka.nilai.show', compact('data_calon', 'data_nilai'));
     }
-
-    // public function nilaiModalTambah(Request $request) {
-    //     $periode = $request->periode;
-    //     $data = CalonPaskibra::where('periode', $periode)->get();
-
-    //     return response()->json([
-    //         'success' => true,
-    //         'message' => 'Data Capas Berhasil di Dapatkan',
-    //         'data' => $data
-    //     ]);
-    // }
-
     public function nilaiShowPeriode(Request $request) {
         $periode = $request->periode;
         $data = Nilai::with('calon_paskibraka')
